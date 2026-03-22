@@ -1,0 +1,2931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeVerse Academy — Master the Markets</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim: #8a6f2e;
+  --bg-deep: #050810;
+  --bg-dark: #080d1a;
+  --bg-card: #0d1528;
+  --bg-card2: #111d35;
+  --text-primary: #eef2ff;
+  --text-muted: #7a8db3;
+  --text-dim: #3d4f72;
+  --accent-green: #00e5a0;
+  --accent-red: #ff4d6d;
+  --accent-blue: #4d9fff;
+  --accent-purple: #9d6fff;
+  --border: rgba(201,168,76,0.15);
+  --border-bright: rgba(201,168,76,0.4);
+  --glow-gold: 0 0 30px rgba(201,168,76,0.3);
+  --glow-green: 0 0 20px rgba(0,229,160,0.3);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+#cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s, opacity 0.3s;
+  mix-blend-mode: screen;
+}
+#cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(201,168,76,0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transition: transform 0.25s ease, width 0.3s, height 0.3s, opacity 0.3s;
+  transform: translate(-50%, -50%);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+/* ===== NAVBAR ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 20px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid transparent;
+  transition: all 0.4s;
+  backdrop-filter: blur(0px);
+}
+nav.scrolled {
+  background: rgba(5,8,16,0.92);
+  border-bottom-color: var(--border);
+  backdrop-filter: blur(20px);
+  padding: 14px 60px;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--gold);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--text-primary); }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px; background: var(--gold);
+  transform: scaleX(0); transition: transform 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { transform: scaleX(1); }
+.nav-cta {
+  background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+  color: var(--bg-deep) !important;
+  padding: 10px 24px;
+  border-radius: 4px;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em;
+}
+.nav-cta::after { display: none !important; }
+.nav-cta:hover { opacity: 0.9; }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 100px 60px 60px;
+}
+
+/* Animated grid */
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridDrift 20s linear infinite;
+}
+@keyframes gridDrift {
+  0% { transform: translateY(0) translateX(0); }
+  100% { transform: translateY(60px) translateX(60px); }
+}
+
+/* Floating orbs */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: orbFloat 8s ease-in-out infinite;
+}
+.orb1 { width:600px; height:600px; background:var(--gold); top:-200px; right:-100px; animation-delay:0s; }
+.orb2 { width:400px; height:400px; background:#2040a0; bottom:-100px; left:-100px; animation-delay:-3s; }
+.orb3 { width:300px; height:300px; background:var(--accent-green); top:40%; left:20%; animation-delay:-6s; opacity:0.08; }
+@keyframes orbFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+
+/* Live ticker */
+.ticker-wrap {
+  position: absolute; top: 90px; left: 0; right: 0;
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(13,21,40,0.8);
+  padding: 8px 0;
+}
+.ticker {
+  display: flex; gap: 60px;
+  animation: tickerMove 30s linear infinite;
+  width: max-content;
+}
+.ticker-item {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+.ticker-symbol { color: var(--gold); font-weight: 500; }
+.ticker-price { color: var(--text-primary); }
+.ticker-change.up { color: var(--accent-green); }
+.ticker-change.down { color: var(--accent-red); }
+@keyframes tickerMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.hero-content {
+  max-width: 900px;
+  text-align: center;
+  position: relative; z-index: 2;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid var(--border-bright);
+  padding: 6px 18px;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 40px;
+  background: rgba(201,168,76,0.05);
+  animation: fadeSlideUp 1s ease both;
+}
+.hero-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--accent-green);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,229,160,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(0,229,160,0); }
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin-bottom: 28px;
+  animation: fadeSlideUp 1s 0.2s ease both;
+}
+.hero-title .gold { color: var(--gold); font-style: italic; }
+.hero-title .outline {
+  -webkit-text-stroke: 1px rgba(201,168,76,0.5);
+  color: transparent;
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+  font-weight: 300;
+  animation: fadeSlideUp 1s 0.4s ease both;
+}
+
+.hero-btns {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  animation: fadeSlideUp 1s 0.6s ease both;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #8a6f2e, var(--gold), #e8c97a);
+  color: var(--bg-deep);
+  padding: 16px 36px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.btn-primary::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.2);
+  transform: translateX(-100%) skewX(-20deg);
+  transition: transform 0.5s;
+}
+.btn-primary:hover::before { transform: translateX(200%) skewX(-20deg); }
+.btn-primary:hover { box-shadow: var(--glow-gold); transform: translateY(-2px); }
+
+.btn-secondary {
+  border: 1px solid var(--border-bright);
+  color: var(--gold);
+  padding: 16px 36px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: transparent;
+}
+.btn-secondary:hover {
+  background: rgba(201,168,76,0.08);
+  transform: translateY(-2px);
+}
+
+/* Hero stats */
+.hero-stats {
+  display: flex; justify-content: center; gap: 60px;
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border);
+  animation: fadeSlideUp 1s 0.8s ease both;
+}
+.stat { text-align: center; }
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--gold);
+  display: block;
+}
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* Animated candlestick chart */
+.hero-chart {
+  position: absolute;
+  right: 5%;
+  bottom: 10%;
+  opacity: 0.12;
+  display: flex; align-items: flex-end; gap: 8px;
+  z-index: 1;
+}
+.candle {
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+  animation: candleFloat 3s ease-in-out infinite;
+}
+.candle:nth-child(2) { animation-delay: 0.3s; }
+.candle:nth-child(3) { animation-delay: 0.6s; }
+.candle:nth-child(4) { animation-delay: 0.9s; }
+.candle:nth-child(5) { animation-delay: 1.2s; }
+.candle-wick { width: 2px; background: currentColor; }
+.candle-body { width: 20px; border-radius: 2px; }
+.candle.bull { color: var(--accent-green); }
+.candle.bull .candle-body { background: var(--accent-green); }
+.candle.bear { color: var(--accent-red); }
+.candle.bear .candle-body { background: var(--accent-red); }
+@keyframes candleFloat {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SECTION BASICS ===== */
+section { padding: 100px 60px; position: relative; }
+.section-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::before {
+  content: ''; display: block;
+  width: 30px; height: 1px;
+  background: var(--gold);
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+.section-title .gold { color: var(--gold); font-style: italic; }
+.section-sub {
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+  max-width: 560px;
+  font-weight: 300;
+}
+
+/* ===== CURRICULUM ===== */
+#curriculum { background: var(--bg-dark); }
+
+.curriculum-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.module-card {
+  background: var(--bg-card);
+  padding: 36px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.4s;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.module-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  transform: scaleX(0); transition: transform 0.4s;
+}
+.module-card:hover { background: var(--bg-card2); transform: translateY(-2px); }
+.module-card:hover::before { transform: scaleX(1); }
+
+.module-icon {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  display: block;
+  filter: grayscale(0.3);
+  transition: transform 0.3s;
+}
+.module-card:hover .module-icon { transform: scale(1.1) rotate(-5deg); }
+
+.module-level {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 100px;
+  margin-bottom: 14px;
+  display: inline-block;
+}
+.level-beginner { background: rgba(0,229,160,0.1); color: var(--accent-green); border: 1px solid rgba(0,229,160,0.2); }
+.level-intermediate { background: rgba(77,159,255,0.1); color: var(--accent-blue); border: 1px solid rgba(77,159,255,0.2); }
+.level-advanced { background: rgba(157,111,255,0.1); color: var(--accent-purple); border: 1px solid rgba(157,111,255,0.2); }
+
+.module-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+.module-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.module-topics {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.module-topics li {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  display: flex; align-items: center; gap: 8px;
+  transition: color 0.3s;
+}
+.module-card:hover .module-topics li { color: var(--text-muted); }
+.module-topics li::before {
+  content: '▸';
+  color: var(--gold);
+  font-size: 0.65rem;
+}
+
+.module-num {
+  position: absolute; top: 24px; right: 24px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: rgba(201,168,76,0.06);
+  line-height: 1;
+  transition: color 0.3s;
+}
+.module-card:hover .module-num { color: rgba(201,168,76,0.12); }
+
+/* ===== FUNDAMENTALS ===== */
+#fundamentals { background: var(--bg-deep); }
+.fundamentals-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  margin-top: 60px;
+}
+
+.concept-accordion { display: flex; flex-direction: column; gap: 2px; }
+.accordion-item {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.accordion-item.active { border-color: var(--border-bright); }
+
+.accordion-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px;
+  cursor: pointer;
+  transition: background 0.3s;
+  background: var(--bg-card);
+}
+.accordion-header:hover { background: var(--bg-card2); }
+.accordion-title {
+  display: flex; align-items: center; gap: 14px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.accordion-icon {
+  width: 32px; height: 32px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  background: rgba(201,168,76,0.1);
+  flex-shrink: 0;
+}
+.accordion-arrow {
+  color: var(--gold);
+  transition: transform 0.3s;
+  font-size: 0.8rem;
+}
+.accordion-item.active .accordion-arrow { transform: rotate(180deg); }
+
+.accordion-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+  background: var(--bg-card);
+}
+.accordion-item.active .accordion-body { max-height: 400px; }
+.accordion-content {
+  padding: 0 24px 24px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  border-top: 1px solid var(--border);
+  padding-top: 18px;
+}
+.accordion-content strong { color: var(--gold); font-weight: 500; }
+
+/* Visual panel */
+.visual-panel {
+  position: sticky; top: 100px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  overflow: hidden;
+}
+.visual-panel-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.visual-panel-title::after {
+  content: ''; flex: 1;
+  height: 1px; background: var(--border);
+}
+
+/* Animated chart */
+.chart-container {
+  position: relative;
+  height: 200px;
+  margin-bottom: 24px;
+}
+.chart-svg { width: 100%; height: 100%; }
+
+.chart-labels {
+  display: flex; justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  margin-top: 8px;
+}
+
+.mini-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-top: 20px;
+}
+.mini-stat {
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+}
+.mini-stat-label {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-family: 'DM Mono', monospace;
+}
+.mini-stat-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.mini-stat-value.green { color: var(--accent-green); }
+.mini-stat-value.red { color: var(--accent-red); }
+
+/* ===== TECHNICAL ANALYSIS ===== */
+#technical { background: var(--bg-dark); }
+.ta-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 60px;
+}
+.ta-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px 24px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.ta-card::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  transform: scaleX(0) ; transition: transform 0.4s;
+  transform-origin: left;
+}
+.ta-card:hover { border-color: rgba(77,159,255,0.3); transform: translateY(-4px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.ta-card:hover::after { transform: scaleX(1); }
+
+.ta-icon {
+  width: 48px; height: 48px;
+  background: linear-gradient(135deg, rgba(77,159,255,0.1), rgba(157,111,255,0.1));
+  border: 1px solid rgba(77,159,255,0.2);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 18px;
+}
+.ta-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+.ta-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.ta-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.ta-tag {
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: rgba(77,159,255,0.08);
+  color: var(--accent-blue);
+  border: 1px solid rgba(77,159,255,0.15);
+  font-family: 'DM Mono', monospace;
+}
+
+/* ===== CANDLESTICK PATTERNS ===== */
+#patterns { background: var(--bg-deep); }
+.patterns-intro {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  margin-bottom: 60px;
+  align-items: start;
+}
+.patterns-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.pattern-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.pattern-card:hover { border-color: var(--border-bright); transform: translateY(-3px); }
+
+.pattern-visual {
+  height: 70px;
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+.p-candle {
+  display: flex; flex-direction: column; align-items: center;
+}
+.p-wick { width: 1.5px; background: currentColor; }
+.p-body { width: 12px; border-radius: 1px; }
+.bull-c { color: var(--accent-green); }
+.bull-c .p-body { background: var(--accent-green); }
+.bear-c { color: var(--accent-red); }
+.bear-c .p-body { background: var(--accent-red); }
+.doji-c { color: #aaa; }
+.doji-c .p-body { background: #aaa; height: 2px !important; }
+
+.pattern-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+.pattern-signal {
+  font-size: 0.7rem;
+  font-family: 'DM Mono', monospace;
+}
+.signal-bull { color: var(--accent-green); }
+.signal-bear { color: var(--accent-red); }
+.signal-neutral { color: var(--text-dim); }
+
+/* ===== RISK MANAGEMENT ===== */
+#risk { background: var(--bg-dark); }
+.risk-layout {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+  align-items: start;
+  margin-top: 60px;
+}
+.risk-rules { display: flex; flex-direction: column; gap: 24px; }
+.risk-rule {
+  display: flex; gap: 20px;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+.risk-rule:hover { border-color: var(--border-bright); transform: translateX(4px); }
+.risk-rule-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(201,168,76,0.25);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 40px;
+}
+.risk-rule-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+.risk-rule-desc {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Risk calculator */
+.risk-calculator {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  position: sticky; top: 100px;
+}
+.calc-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  color: var(--gold);
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.calc-field { margin-bottom: 20px; }
+.calc-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+  font-family: 'DM Mono', monospace;
+}
+.calc-input {
+  width: 100%;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.calc-input:focus { border-color: var(--gold); }
+.calc-result {
+  background: linear-gradient(135deg, rgba(0,229,160,0.05), rgba(0,229,160,0.1));
+  border: 1px solid rgba(0,229,160,0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 24px;
+}
+.calc-result-label {
+  font-size: 0.72rem;
+  color: var(--accent-green);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 8px;
+}
+.calc-result-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.8rem;
+  color: var(--accent-green);
+  font-weight: 500;
+}
+.calc-result-sub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ===== TRADING STRATEGIES ===== */
+#strategies { background: var(--bg-deep); }
+.strategies-tabs {
+  display: flex; gap: 2px;
+  margin-top: 50px;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--border);
+}
+.strategy-tab {
+  padding: 12px 28px;
+  font-size: 0.83rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s;
+  margin-bottom: -1px;
+  background: none; border-top: none; border-left: none; border-right: none;
+}
+.strategy-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.strategy-tab:hover { color: var(--text-primary); }
+
+.strategy-panels { padding-top: 40px; }
+.strategy-panel { display: none; }
+.strategy-panel.active { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+
+.strategy-info h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+.strategy-info p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 24px;
+}
+.strategy-metrics {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 28px;
+}
+.s-metric {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px;
+}
+.s-metric-key {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 6px;
+}
+.s-metric-val {
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.strategy-steps { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.strategy-steps li {
+  display: flex; gap: 16px; align-items: flex-start;
+  font-size: 0.87rem; color: var(--text-muted); line-height: 1.6;
+}
+.step-num {
+  width: 24px; height: 24px; flex-shrink: 0;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid var(--border-bright);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem;
+  color: var(--gold);
+  font-family: 'DM Mono', monospace;
+  margin-top: 1px;
+}
+
+.strategy-chart-area {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px;
+  display: flex; flex-direction: column;
+}
+.chart-header {
+  display: flex; justify-content: space-between;
+  margin-bottom: 20px;
+}
+.chart-title { font-size: 0.8rem; color: var(--text-muted); font-family: 'DM Mono', monospace; }
+.chart-badge {
+  font-size: 0.7rem;
+  padding: 3px 10px; border-radius: 3px;
+  font-family: 'DM Mono', monospace;
+}
+.chart-badge.up { background: rgba(0,229,160,0.1); color: var(--accent-green); }
+.chart-badge.down { background: rgba(255,77,109,0.1); color: var(--accent-red); }
+
+/* ===== MARKET TYPES ===== */
+#markets { background: var(--bg-dark); }
+.markets-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+.market-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.4s;
+  cursor: pointer;
+}
+.market-card:hover { transform: translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.5); border-color: var(--border-bright); }
+.market-card-top {
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.market-bg {
+  position: absolute; inset: 0;
+  opacity: 0.08;
+  transition: opacity 0.4s;
+}
+.market-card:hover .market-bg { opacity: 0.15; }
+.market-card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 16px;
+  position: relative; z-index: 1;
+}
+.market-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  position: relative; z-index: 1;
+  margin-bottom: 8px;
+}
+.market-card-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  position: relative; z-index: 1;
+}
+.market-card-body { padding: 24px 32px 32px; border-top: 1px solid var(--border); }
+.market-facts { display: flex; flex-direction: column; gap: 12px; }
+.market-fact {
+  display: flex; justify-content: space-between;
+  font-size: 0.82rem;
+}
+.market-fact-key { color: var(--text-dim); }
+.market-fact-val { color: var(--text-primary); font-family: 'DM Mono', monospace; font-size: 0.78rem; }
+
+/* ===== ADVANCED CONCEPTS ===== */
+#advanced { background: var(--bg-deep); }
+.advanced-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+.advanced-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.advanced-card::before {
+  content: '';
+  position: absolute; top: -50%; right: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(201,168,76,0.03) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.4s;
+}
+.advanced-card:hover { border-color: var(--border-bright); }
+.advanced-card:hover::before { opacity: 1; }
+
+.advanced-header {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 20px;
+}
+.advanced-icon {
+  width: 50px; height: 50px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.advanced-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.advanced-subtitle { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+.advanced-body {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 20px;
+}
+.advanced-highlights {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.advanced-highlight {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+.advanced-highlight::before { content: '◆'; color: var(--gold); font-size: 0.5rem; }
+
+/* ===== PSYCHOLOGY ===== */
+#psychology { background: var(--bg-dark); }
+.psych-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 60px;
+}
+.bias-card {
+  display: flex; gap: 20px;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  transition: all 0.3s;
+  align-items: flex-start;
+}
+.bias-card:hover { border-color: var(--border-bright); }
+.bias-emoji { font-size: 2rem; flex-shrink: 0; }
+.bias-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+.bias-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+.bias-tip {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: var(--gold);
+  font-style: italic;
+}
+
+/* ===== GLOSSARY ===== */
+#glossary { background: var(--bg-deep); }
+.glossary-search {
+  position: relative;
+  margin-bottom: 40px;
+  max-width: 500px;
+}
+.glossary-search input {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 20px 14px 48px;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.glossary-search input:focus { border-color: var(--gold); }
+.glossary-search::before {
+  content: '🔍';
+  position: absolute; left: 16px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  pointer-events: none;
+}
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+.glossary-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+  transition: all 0.3s;
+}
+.glossary-card:hover { border-color: var(--border-bright); }
+.glossary-term {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--gold);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.glossary-def {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ===== CTA ===== */
+#cta {
+  background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-deep) 100%);
+  text-align: center;
+  padding: 120px 60px;
+  position: relative;
+  overflow: hidden;
+}
+#cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.08) 0%, transparent 70%);
+}
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.2;
+  margin-bottom: 20px;
+  position: relative;
+}
+.cta-title .gold { color: var(--gold); font-style: italic; }
+.cta-sub {
+  font-size: 1rem;
+  color: var(--text-muted);
+  max-width: 500px;
+  margin: 0 auto 48px;
+  line-height: 1.7;
+}
+.cta-features {
+  display: flex; justify-content: center; gap: 40px;
+  margin-bottom: 48px; flex-wrap: wrap;
+}
+.cta-feature {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.cta-feature::before { content: '✓'; color: var(--accent-green); font-weight: bold; }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--bg-deep);
+  border-top: 1px solid var(--border);
+  padding: 60px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 40px;
+}
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+.footer-desc {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  max-width: 280px;
+}
+.footer-heading {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+  font-family: 'DM Mono', monospace;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-links a {
+  font-size: 0.83rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-copy {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-family: 'DM Mono', monospace;
+}
+.footer-disclaimer {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  max-width: 500px;
+  text-align: right;
+  line-height: 1.5;
+}
+
+/* ===== ANIMATIONS ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-left.visible { opacity: 1; transform: translateX(0); }
+.reveal-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+/* Stagger children */
+.stagger-children > *:nth-child(1) { transition-delay: 0.05s; }
+.stagger-children > *:nth-child(2) { transition-delay: 0.1s; }
+.stagger-children > *:nth-child(3) { transition-delay: 0.15s; }
+.stagger-children > *:nth-child(4) { transition-delay: 0.2s; }
+.stagger-children > *:nth-child(5) { transition-delay: 0.25s; }
+.stagger-children > *:nth-child(6) { transition-delay: 0.3s; }
+.stagger-children > *:nth-child(7) { transition-delay: 0.35s; }
+.stagger-children > *:nth-child(8) { transition-delay: 0.4s; }
+
+/* Animated number counter */
+.count-num { font-variant-numeric: tabular-nums; }
+
+/* Progress bars */
+.progress-bar-wrap {
+  background: rgba(255,255,255,0.05);
+  border-radius: 100px;
+  height: 4px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.progress-bar {
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+  width: 0%;
+  transition: width 1.2s ease;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1100px) {
+  .curriculum-grid { grid-template-columns: repeat(2, 1fr); }
+  .ta-grid { grid-template-columns: repeat(2, 1fr); }
+  .patterns-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  nav.scrolled { padding: 12px 24px; }
+  .nav-links { display: none; }
+  section { padding: 60px 24px; }
+  .hero { padding: 100px 24px 60px; }
+  .fundamentals-layout, .risk-layout, .psych-grid,
+  .advanced-grid, .patterns-intro { grid-template-columns: 1fr; gap: 40px; }
+  .curriculum-grid, .ta-grid, .markets-grid, .glossary-grid { grid-template-columns: 1fr; }
+  .strategy-panel.active { grid-template-columns: 1fr; }
+  .hero-stats { gap: 30px; flex-wrap: wrap; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  .footer-disclaimer { text-align: center; }
+  .patterns-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ===== FLOATING ELEMENTS ===== */
+.floating {
+  animation: floatY 5s ease-in-out infinite;
+}
+@keyframes floatY {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* Glow line */
+.glow-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 0 auto;
+  width: 60%;
+  opacity: 0.3;
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Trade<span>Verse</span></a>
+  <ul class="nav-links">
+    <li><a href="#curriculum">Curriculum</a></li>
+    <li><a href="#technical">Technical</a></li>
+    <li><a href="#strategies">Strategies</a></li>
+    <li><a href="#risk">Risk Mgmt</a></li>
+    <li><a href="#markets">Markets</a></li>
+    <li><a href="#glossary">Glossary</a></li>
+    <li><a href="#cta" class="nav-cta">Start Learning</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <!-- Live ticker -->
+  <div class="ticker-wrap">
+    <div class="ticker" id="ticker">
+      <div class="ticker-item"><span class="ticker-symbol">AAPL</span><span class="ticker-price">$182.50</span><span class="ticker-change up">+1.24%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">TSLA</span><span class="ticker-price">$248.10</span><span class="ticker-change up">+2.81%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">$67,420</span><span class="ticker-change up">+3.15%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">$3,840</span><span class="ticker-change down">-0.72%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">NVDA</span><span class="ticker-price">$875.40</span><span class="ticker-change up">+4.20%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">SPY</span><span class="ticker-price">$521.80</span><span class="ticker-change up">+0.55%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">$2,345</span><span class="ticker-change down">-0.18%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">EUR/USD</span><span class="ticker-price">1.0842</span><span class="ticker-change up">+0.32%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">AMZN</span><span class="ticker-price">$184.70</span><span class="ticker-change down">-1.05%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">MSFT</span><span class="ticker-price">$410.20</span><span class="ticker-change up">+0.88%</span></div>
+      <!-- Duplicate for seamless scroll -->
+      <div class="ticker-item"><span class="ticker-symbol">AAPL</span><span class="ticker-price">$182.50</span><span class="ticker-change up">+1.24%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">TSLA</span><span class="ticker-price">$248.10</span><span class="ticker-change up">+2.81%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">BTC</span><span class="ticker-price">$67,420</span><span class="ticker-change up">+3.15%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">ETH</span><span class="ticker-price">$3,840</span><span class="ticker-change down">-0.72%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">NVDA</span><span class="ticker-price">$875.40</span><span class="ticker-change up">+4.20%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">SPY</span><span class="ticker-price">$521.80</span><span class="ticker-change up">+0.55%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">GOLD</span><span class="ticker-price">$2,345</span><span class="ticker-change down">-0.18%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">EUR/USD</span><span class="ticker-price">1.0842</span><span class="ticker-change up">+0.32%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">AMZN</span><span class="ticker-price">$184.70</span><span class="ticker-change down">-1.05%</span></div>
+      <div class="ticker-item"><span class="ticker-symbol">MSFT</span><span class="ticker-price">$410.20</span><span class="ticker-change up">+0.88%</span></div>
+    </div>
+  </div>
+
+  <!-- Decorative candle chart -->
+  <div class="hero-chart">
+    <div class="candle bull"><div class="candle-wick" style="height:30px"></div><div class="candle-body" style="height:50px"></div><div class="candle-wick" style="height:15px"></div></div>
+    <div class="candle bear"><div class="candle-wick" style="height:20px"></div><div class="candle-body" style="height:35px"></div><div class="candle-wick" style="height:25px"></div></div>
+    <div class="candle bull"><div class="candle-wick" style="height:15px"></div><div class="candle-body" style="height:70px"></div><div class="candle-wick" style="height:10px"></div></div>
+    <div class="candle bull"><div class="candle-wick" style="height:25px"></div><div class="candle-body" style="height:45px"></div><div class="candle-wick" style="height:20px"></div></div>
+    <div class="candle bear"><div class="candle-wick" style="height:30px"></div><div class="candle-body" style="height:30px"></div><div class="candle-wick" style="height:15px"></div></div>
+    <div class="candle bull"><div class="candle-wick" style="height:10px"></div><div class="candle-body" style="height:85px"></div><div class="candle-wick" style="height:12px"></div></div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Complete Trading Education Platform
+    </div>
+
+    <h1 class="hero-title">
+      Master the Art of<br>
+      <span class="gold">Financial Markets</span><br>
+      from <span class="outline">Zero to Pro</span>
+    </h1>
+
+    <p class="hero-sub">
+      A comprehensive, beautifully structured learning path covering everything from basic market concepts to advanced algorithmic strategies. Built for serious traders.
+    </p>
+
+    <div class="hero-btns">
+      <a href="#curriculum" class="btn-primary">Begin Your Journey</a>
+      <a href="#glossary" class="btn-secondary">Browse Glossary</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num count-num" data-target="12">0</span>
+        <span class="stat-label">Core Modules</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num count-num" data-target="200">0</span>
+        <span class="stat-label">Concepts Covered</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num count-num" data-target="50">0</span>
+        <span class="stat-label">Chart Patterns</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num count-num" data-target="100">0</span>
+        <span class="stat-label">% Free Content</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="glow-divider"></div>
+
+<!-- ===== CURRICULUM ===== -->
+<section id="curriculum">
+  <div class="section-label">Learning Path</div>
+  <h2 class="section-title">Complete <span class="gold">Curriculum</span></h2>
+  <p class="section-sub">A structured progression from market foundations to sophisticated trading strategies, each module building on the last.</p>
+
+  <div class="curriculum-grid stagger-children reveal">
+    <div class="module-card">
+      <div class="module-num">01</div>
+      <span class="module-icon">📈</span>
+      <span class="module-level level-beginner">Beginner</span>
+      <div class="module-title">Market Fundamentals</div>
+      <div class="module-desc">Understanding how financial markets work, their participants, and the forces that move prices.</div>
+      <ul class="module-topics">
+        <li>What is the Stock Market?</li>
+        <li>Bulls, Bears & Market Cycles</li>
+        <li>How Exchanges Work</li>
+        <li>Supply & Demand Dynamics</li>
+        <li>Bid/Ask & Order Flow</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">02</div>
+      <span class="module-icon">🕯️</span>
+      <span class="module-level level-beginner">Beginner</span>
+      <div class="module-title">Chart Reading</div>
+      <div class="module-desc">Interpreting price charts, understanding different chart types, and reading market history.</div>
+      <ul class="module-topics">
+        <li>Line, Bar & Candlestick Charts</li>
+        <li>Timeframes Explained</li>
+        <li>Volume Analysis</li>
+        <li>Support & Resistance</li>
+        <li>Trend Lines</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">03</div>
+      <span class="module-icon">📐</span>
+      <span class="module-level level-intermediate">Intermediate</span>
+      <div class="module-title">Technical Analysis</div>
+      <div class="module-desc">Using indicators, oscillators and price action to forecast future market movements.</div>
+      <ul class="module-topics">
+        <li>Moving Averages (SMA/EMA/WMA)</li>
+        <li>RSI, MACD, Stochastics</li>
+        <li>Bollinger Bands & ATR</li>
+        <li>Fibonacci Retracements</li>
+        <li>Volume Indicators (OBV, VWAP)</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">04</div>
+      <span class="module-icon">🧩</span>
+      <span class="module-level level-intermediate">Intermediate</span>
+      <div class="module-title">Chart Patterns</div>
+      <div class="module-desc">Recognizing recurring price patterns that signal potential reversals or continuations.</div>
+      <ul class="module-topics">
+        <li>Head & Shoulders</li>
+        <li>Double/Triple Tops & Bottoms</li>
+        <li>Flags, Pennants & Wedges</li>
+        <li>Cup & Handle</li>
+        <li>Candlestick Patterns (30+)</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">05</div>
+      <span class="module-icon">🛡️</span>
+      <span class="module-level level-beginner">Beginner</span>
+      <div class="module-title">Risk Management</div>
+      <div class="module-desc">The most critical skill in trading — protecting capital and managing position sizes.</div>
+      <ul class="module-topics">
+        <li>Position Sizing Rules</li>
+        <li>Stop Loss & Take Profit</li>
+        <li>Risk/Reward Ratios</li>
+        <li>Portfolio Diversification</li>
+        <li>Drawdown Management</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">06</div>
+      <span class="module-icon">⚡</span>
+      <span class="module-level level-intermediate">Intermediate</span>
+      <div class="module-title">Trading Strategies</div>
+      <div class="module-desc">Proven methodologies for entering and exiting trades with a statistical edge.</div>
+      <ul class="module-topics">
+        <li>Day Trading Techniques</li>
+        <li>Swing Trading Setups</li>
+        <li>Scalping Strategies</li>
+        <li>Trend Following</li>
+        <li>Mean Reversion</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">07</div>
+      <span class="module-icon">📊</span>
+      <span class="module-level level-intermediate">Intermediate</span>
+      <div class="module-title">Fundamental Analysis</div>
+      <div class="module-desc">Evaluating companies and economies to find undervalued or overvalued assets.</div>
+      <ul class="module-topics">
+        <li>Financial Statements</li>
+        <li>P/E, EPS & Key Ratios</li>
+        <li>Earnings Reports</li>
+        <li>Macroeconomic Indicators</li>
+        <li>Sector Analysis</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">08</div>
+      <span class="module-icon">🌍</span>
+      <span class="module-level level-intermediate">Intermediate</span>
+      <div class="module-title">Market Types</div>
+      <div class="module-desc">Exploring equities, forex, crypto, commodities, and derivatives markets.</div>
+      <ul class="module-topics">
+        <li>Stocks & ETFs</li>
+        <li>Forex Market</li>
+        <li>Cryptocurrency</li>
+        <li>Commodities & Futures</li>
+        <li>Options Basics</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">09</div>
+      <span class="module-icon">🧠</span>
+      <span class="module-level level-beginner">Beginner</span>
+      <div class="module-title">Trading Psychology</div>
+      <div class="module-desc">The mental game — mastering emotions, avoiding cognitive biases, and maintaining discipline.</div>
+      <ul class="module-topics">
+        <li>Fear & Greed Cycle</li>
+        <li>Cognitive Biases in Trading</li>
+        <li>Journaling & Reflection</li>
+        <li>Building Discipline</li>
+        <li>Managing Losses</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">10</div>
+      <span class="module-icon">🔢</span>
+      <span class="module-level level-advanced">Advanced</span>
+      <div class="module-title">Quantitative Trading</div>
+      <div class="module-desc">Using statistics, backtesting, and algorithmic approaches to systematize trading.</div>
+      <ul class="module-topics">
+        <li>Backtesting Strategies</li>
+        <li>Statistical Edge</li>
+        <li>Mean/Variance Optimization</li>
+        <li>Algorithmic Execution</li>
+        <li>Sharpe & Sortino Ratios</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">11</div>
+      <span class="module-icon">📜</span>
+      <span class="module-level level-advanced">Advanced</span>
+      <div class="module-title">Options & Derivatives</div>
+      <div class="module-desc">Advanced instruments for hedging, income generation and leveraged directional bets.</div>
+      <ul class="module-topics">
+        <li>Calls, Puts & Spreads</li>
+        <li>The Greeks (Delta, Gamma, Theta)</li>
+        <li>Iron Condors & Butterflies</li>
+        <li>Volatility Trading (IV/HV)</li>
+        <li>Futures Contracts</li>
+      </ul>
+    </div>
+
+    <div class="module-card">
+      <div class="module-num">12</div>
+      <span class="module-icon">🏗️</span>
+      <span class="module-level level-advanced">Advanced</span>
+      <div class="module-title">Portfolio & Macro</div>
+      <div class="module-desc">Building and managing a holistic portfolio aligned with macroeconomic cycles.</div>
+      <ul class="module-topics">
+        <li>Asset Allocation Models</li>
+        <li>Interest Rate Impact</li>
+        <li>Inflation & Currency Flows</li>
+        <li>Global Market Correlations</li>
+        <li>All-Weather Portfolio</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FUNDAMENTALS ===== -->
+<section id="fundamentals">
+  <div class="section-label">Module 1</div>
+  <div class="fundamentals-layout">
+    <div>
+      <h2 class="section-title reveal">Market <span class="gold">Fundamentals</span></h2>
+      <p class="section-sub reveal">Before placing a single trade, you must understand the mechanics behind financial markets — who participates, why prices move, and how exchanges operate.</p>
+      <br><br>
+      <div class="concept-accordion reveal" id="accordion">
+        <div class="accordion-item active">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title"><span class="accordion-icon">🏛️</span> What is the Stock Market?</div>
+            <span class="accordion-arrow">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              The stock market is a <strong>marketplace where buyers and sellers exchange shares</strong> of publicly listed companies. When you buy a stock, you're buying a fractional ownership in that business. Stock markets serve two primary functions: <strong>raising capital for companies</strong> (primary market via IPOs) and providing <strong>liquidity for investors</strong> to trade shares (secondary market). Major exchanges include NYSE, NASDAQ, LSE, NSE, and BSE.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title"><span class="accordion-icon">📉</span> Bulls vs Bears & Market Cycles</div>
+            <span class="accordion-arrow">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              A <strong>bull market</strong> is a sustained period of rising prices (20%+ gain from recent low) driven by optimism, strong economics, and investor confidence. A <strong>bear market</strong> is the opposite — prices fall 20%+ from recent highs. Market cycles typically follow: <strong>Accumulation → Mark-up → Distribution → Mark-down</strong>. Understanding where we are in the cycle determines optimal strategy — buy during accumulation, be cautious during distribution.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title"><span class="accordion-icon">⚙️</span> How Exchanges Work</div>
+            <span class="accordion-arrow">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              Exchanges match buy and sell orders through an <strong>order book</strong> — a real-time ledger of all pending orders. Market makers provide liquidity by continuously quoting bid/ask prices. When you place a <strong>market order</strong>, it fills at the best available price. A <strong>limit order</strong> only fills at your specified price or better. Understanding order types is fundamental to execution quality and slippage management.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title"><span class="accordion-icon">⚖️</span> Supply, Demand & Price Discovery</div>
+            <span class="accordion-arrow">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              Price is simply the point where supply meets demand. When more people want to buy an asset than sell it (<strong>excess demand</strong>), price rises. When selling pressure exceeds buyers (<strong>excess supply</strong>), price falls. <strong>Price discovery</strong> is the continuous process of finding this equilibrium. News, earnings, macro data — all impact supply/demand balance instantly, which is why markets can move violently on releases.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title"><span class="accordion-icon">💱</span> Bid/Ask Spread & Order Flow</div>
+            <span class="accordion-arrow">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              The <strong>bid price</strong> is what buyers will pay; the <strong>ask price</strong> is what sellers want. The difference is the <strong>spread</strong> — the market maker's profit. Tight spreads indicate high liquidity; wide spreads signal thin markets. <strong>Order flow analysis</strong> studies the sequence of trades to infer institutional intent. Large block orders often signal smart money positioning before major moves.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title"><span class="accordion-icon">📋</span> Types of Orders</div>
+            <span class="accordion-arrow">▼</span>
+          </div>
+          <div class="accordion-body">
+            <div class="accordion-content">
+              <strong>Market Order:</strong> Executes immediately at current price. Fast but no price guarantee. <br><br>
+              <strong>Limit Order:</strong> Executes only at your price or better. Gives price control, but may not fill.<br><br>
+              <strong>Stop Order:</strong> Triggers when price hits a level — used for stop-loss protection.<br><br>
+              <strong>Stop-Limit:</strong> Triggers at stop price, executes as limit. Safer but can miss in gaps.<br><br>
+              <strong>Trailing Stop:</strong> Follows price automatically — locks in profit as trade moves in your favor.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual panel -->
+    <div class="visual-panel floating reveal-right">
+      <div class="visual-panel-title">📊 Live Concept Visualizer</div>
+
+      <div style="margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:8px;">
+          <span style="color:var(--text-muted);">Market Sentiment Gauge</span>
+          <span style="color:var(--accent-green);font-family:'DM Mono',monospace;">Bullish 74%</span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" data-width="74" style="background:linear-gradient(90deg,var(--gold-dim),var(--accent-green));"></div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <svg class="chart-svg" viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:rgba(201,168,76,0.3)"/>
+              <stop offset="100%" style="stop-color:rgba(201,168,76,0)"/>
+            </linearGradient>
+          </defs>
+          <!-- Grid lines -->
+          <line x1="0" y1="45" x2="300" y2="45" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <line x1="0" y1="90" x2="300" y2="90" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <line x1="0" y1="135" x2="300" y2="135" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+          <!-- Area fill -->
+          <path d="M0,150 L0,120 C30,110 50,130 80,100 C110,70 130,80 160,55 C190,30 210,45 240,25 C260,15 280,20 300,10 L300,150 Z" fill="url(#chartGrad)"/>
+          <!-- Line -->
+          <path d="M0,120 C30,110 50,130 80,100 C110,70 130,80 160,55 C190,30 210,45 240,25 C260,15 280,20 300,10" fill="none" stroke="var(--gold)" stroke-width="2">
+            <animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="2s" begin="0s" fill="freeze"/>
+          </path>
+          <!-- Dot at end -->
+          <circle cx="300" cy="10" r="4" fill="var(--gold)">
+            <animate attributeName="r" values="4;6;4" dur="1.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="1;0.5;1" dur="1.5s" repeatCount="indefinite"/>
+          </circle>
+          <!-- Price labels -->
+          <text x="4" y="42" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace">$185</text>
+          <text x="4" y="87" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace">$175</text>
+          <text x="4" y="132" fill="rgba(255,255,255,0.2)" font-size="8" font-family="monospace">$165</text>
+        </svg>
+      </div>
+      <div class="chart-labels">
+        <span>Jan</span><span>Feb</span><span>Mar</span><span>Apr</span><span>May</span><span>Jun</span>
+      </div>
+
+      <div class="mini-stats">
+        <div class="mini-stat">
+          <div class="mini-stat-label">Current Price</div>
+          <div class="mini-stat-value">$182.50</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Change</div>
+          <div class="mini-stat-value green">+$12.30</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Bid / Ask</div>
+          <div class="mini-stat-value" style="font-size:0.85rem;">$182.48 / $182.52</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-label">Volume</div>
+          <div class="mini-stat-value">58.4M</div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; padding:16px; background:var(--bg-dark); border-radius:6px; border:1px solid var(--border);">
+        <div style="font-size:0.72rem;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:10px;letter-spacing:0.1em;">ORDER BOOK SNAPSHOT</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          <div style="display:flex;justify-content:space-between;font-size:0.75rem;font-family:'DM Mono',monospace;">
+            <span style="color:var(--accent-red);">$182.55</span><span style="color:var(--text-dim);">ASK</span><span style="color:var(--text-muted);">2,400</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.75rem;font-family:'DM Mono',monospace;">
+            <span style="color:var(--accent-red);">$182.53</span><span style="color:var(--text-dim);">ASK</span><span style="color:var(--text-muted);">1,800</span>
+          </div>
+          <div style="height:1px;background:var(--border);margin:4px 0;"></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.75rem;font-family:'DM Mono',monospace;">
+            <span style="color:var(--accent-green);">$182.48</span><span style="color:var(--text-dim);">BID</span><span style="color:var(--text-muted);">3,100</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:0.75rem;font-family:'DM Mono',monospace;">
+            <span style="color:var(--accent-green);">$182.44</span><span style="color:var(--text-dim);">BID</span><span style="color:var(--text-muted);">5,600</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TECHNICAL ANALYSIS ===== -->
+<section id="technical">
+  <div class="section-label">Module 3</div>
+  <h2 class="section-title reveal">Technical <span class="gold">Analysis</span></h2>
+  <p class="section-sub reveal">Indicators and tools that help you read market momentum, identify trend strength, and time entries and exits with precision.</p>
+
+  <div class="ta-grid stagger-children">
+    <div class="ta-card reveal">
+      <div class="ta-icon">〰️</div>
+      <div class="ta-title">Moving Averages</div>
+      <div class="ta-desc">Smooth out price noise to reveal the underlying trend direction. The crossover of fast and slow MAs generates trade signals.</div>
+      <div class="ta-tags">
+        <span class="ta-tag">SMA</span>
+        <span class="ta-tag">EMA</span>
+        <span class="ta-tag">WMA</span>
+        <span class="ta-tag">Golden Cross</span>
+        <span class="ta-tag">Death Cross</span>
+      </div>
+    </div>
+    <div class="ta-card reveal">
+      <div class="ta-icon">📏</div>
+      <div class="ta-title">RSI (Relative Strength Index)</div>
+      <div class="ta-desc">A momentum oscillator ranging 0–100 that identifies overbought (>70) and oversold (<30) conditions, and divergences.</div>
+      <div class="ta-tags">
+        <span class="ta-tag">Overbought</span>
+        <span class="ta-tag">Oversold</span>
+        <span class="ta-tag">Divergence</span>
+        <span class="ta-tag">Hidden Div.</span>
+      </div>
+    </div>
+    <div class="ta-card reveal">
+      <div class="ta-icon">📡</div>
+      <div class="ta-title">MACD</div>
+      <div class="ta-desc">Moving Average Convergence Divergence shows trend direction and momentum through signal line crossovers and histogram.</div>
+      <div class="ta-tags">
+        <span class="ta-tag">Signal Line</span>
+        <span class="ta-tag">Histogram</span>
+        <span class="ta-tag">Crossover</span>
+        <span class="ta-tag">Zero Line</span>
+      </div>
+    </div>
+    <div class="ta-card reveal">
+      <div class="ta-icon">🔔</div>
+      <div class="ta-title">Bollinger Bands</div>
+      <div class="ta-desc">Volatility bands placed 2 standard deviations above/below a moving average. Squeeze signals potential breakouts.</div>
+      <div class="ta-tags">
+        <span class="ta-tag">Band Squeeze</span>
+        <span class="ta-tag">Breakout</span>
+        <span class="ta-tag">Volatility</span>
+        <span class="ta-tag">Mean Rev.</span>
+      </div>
+    </div>
+    <div class="ta-card reveal">
+      <div class="ta-icon">🌊</div>
+      <div class="ta-title">Fibonacci Retracements</div>
+      <div class="ta-desc">Key levels (23.6%, 38.2%, 50%, 61.8%, 78.6%) derived from the Fibonacci sequence where price often finds support/resistance.</div>
+      <div class="ta-tags">
+        <span class="ta-tag">38.2%</span>
+        <span class="ta-tag">61.8%</span>
+        <span class="ta-tag">Extensions</span>
+        <span class="ta-tag">Golden Ratio</span>
+      </div>
+    </div>
+    <div class="ta-card reveal">
+      <div class="ta-icon">📦</div>
+      <div class="ta-title">VWAP & Volume</div>
+      <div class="ta-desc">Volume-Weighted Average Price shows the average price weighted by volume — institutional traders use it as a key benchmark.</div>
+      <div class="ta-tags">
+        <span class="ta-tag">VWAP</span>
+        <span class="ta-tag">OBV</span>
+        <span class="ta-tag">Vol Profile</span>
+        <span class="ta-tag">POC</span>
+      </div>
+    </div>
+    <div class="ta-card reveal">
+      <div class="ta-icon">🌡️</div>
+      <div class="ta-title">Stochastics & CCI</div>
+      <div class="ta-desc">Momentum oscillators comparing closing prices to their range over a given period. Effective in ranging market conditions.</div>
+      <div class="ta-tags">
+        <span class="ta-tag">%K / %D</span>
+        <span class="ta-tag">Osc. Cross</span>
+        <span class="ta-tag">CCI +100</span>
+        <span class="ta-tag">Divergence</span>
+      </div>
+    </div>
+    <div class="ta-card reveal">
+      <div class="ta-icon">🏔️</div>
+      <div class="ta-title">ATR & Volatility</div>
+      <div class="ta-desc">Average True Range measures market volatility regardless of direction — essential for setting dynamic stop losses.</div>
+      <div class="ta-tags">
+        <span class="ta-tag">ATR</span>
+        <span class="ta-tag">Stop Sizing</span>
+        <span class="ta-tag">Keltner Ch.</span>
+        <span class="ta-tag">VIX</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CANDLESTICK PATTERNS ===== -->
+<section id="patterns">
+  <div class="patterns-intro">
+    <div>
+      <div class="section-label">Module 4</div>
+      <h2 class="section-title reveal">Candlestick <span class="gold">Patterns</span></h2>
+      <p class="section-sub reveal">Japanese candlestick patterns encode the battle between buyers and sellers in a single visual unit. Learn to decode their language.</p>
+      <br>
+      <p class="reveal" style="font-size:0.85rem;color:var(--text-muted);line-height:1.7;">Each candlestick shows four data points: <span style="color:var(--gold);">Open, High, Low, Close</span>. The body shows the range between open and close. Green/white bodies are bullish (close > open); red/black bodies are bearish. Wicks show price extremes during the period.</p>
+      <br>
+      <div class="reveal" style="padding:20px;background:var(--bg-card);border:1px solid var(--border);border-radius:8px;margin-top:10px;">
+        <div style="font-size:0.75rem;color:var(--gold);font-family:'DM Mono',monospace;letter-spacing:0.1em;margin-bottom:12px;">PATTERN RELIABILITY SCALE</div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:4px;"><span style="color:var(--text-muted);">3-Candle Patterns</span><span style="color:var(--accent-green);font-family:'DM Mono',monospace;">High ~72%</span></div>
+            <div class="progress-bar-wrap"><div class="progress-bar" data-width="72" style="background:linear-gradient(90deg,var(--gold-dim),var(--accent-green));"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:4px;"><span style="color:var(--text-muted);">2-Candle Patterns</span><span style="color:var(--accent-blue);font-family:'DM Mono',monospace;">Med ~58%</span></div>
+            <div class="progress-bar-wrap"><div class="progress-bar" data-width="58" style="background:linear-gradient(90deg,var(--gold-dim),var(--accent-blue));"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:0.75rem;margin-bottom:4px;"><span style="color:var(--text-muted);">Single-Candle Patterns</span><span style="color:var(--text-muted);font-family:'DM Mono',monospace;">Low ~49%</span></div>
+            <div class="progress-bar-wrap"><div class="progress-bar" data-width="49" style="background:linear-gradient(90deg,var(--gold-dim),var(--text-muted));"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-right" style="display:flex;flex-direction:column;gap:20px;">
+      <!-- Animated candlestick anatomy -->
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:28px;text-align:center;">
+        <div style="font-size:0.75rem;color:var(--gold);font-family:'DM Mono',monospace;letter-spacing:0.1em;margin-bottom:20px;">CANDLESTICK ANATOMY</div>
+        <svg viewBox="0 0 200 220" style="width:180px;margin:0 auto;display:block;">
+          <!-- Wick -->
+          <line x1="100" y1="10" x2="100" y2="55" stroke="var(--accent-green)" stroke-width="2"/>
+          <line x1="100" y1="145" x2="100" y2="190" stroke="var(--accent-green)" stroke-width="2"/>
+          <!-- Body -->
+          <rect x="70" y="55" width="60" height="90" rx="3" fill="var(--accent-green)" opacity="0.8"/>
+          <!-- Labels -->
+          <text x="120" y="18" fill="rgba(255,255,255,0.4)" font-size="9" font-family="monospace">High</text>
+          <text x="120" y="75" fill="rgba(255,255,255,0.4)" font-size="9" font-family="monospace">Close</text>
+          <text x="120" y="130" fill="rgba(255,255,255,0.4)" font-size="9" font-family="monospace">Open</text>
+          <text x="120" y="185" fill="rgba(255,255,255,0.4)" font-size="9" font-family="monospace">Low</text>
+          <!-- Arrows -->
+          <line x1="118" y1="15" x2="105" y2="15" stroke="rgba(255,255,255,0.2)" stroke-width="1" marker-end="none"/>
+          <line x1="118" y1="72" x2="105" y2="70" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          <line x1="118" y1="127" x2="105" y2="130" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          <line x1="118" y1="182" x2="105" y2="182" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+          <!-- Open/Close label -->
+          <text x="100" y="215" fill="rgba(201,168,76,0.5)" font-size="8" font-family="monospace" text-anchor="middle">BULLISH CANDLE</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="patterns-grid stagger-children">
+    <!-- Doji -->
+    <div class="pattern-card reveal">
+      <div class="pattern-visual">
+        <div class="p-candle doji-c">
+          <div class="p-wick" style="height:25px"></div>
+          <div class="p-body" style="height:2px"></div>
+          <div class="p-wick" style="height:25px"></div>
+        </div>
+      </div>
+      <div class="pattern-name">Doji</div>
+      <div class="pattern-signal signal-neutral">Indecision</div>
+    </div>
+    <!-- Hammer -->
+    <div class="pattern-card reveal">
+      <div class="pattern-visual">
+        <div class="p-candle bull-c">
+          <div class="p-wick" style="height:5px"></div>
+          <div class="p-body" style="height:15px"></div>
+          <div class="p-wick" style="height:40px"></div>
+        </div>
+      </div>
+      <div class="pattern-name">Hammer</div>
+      <div class="pattern-signal signal-bull">Bullish Reversal</div>
+    </div>
+    <!-- Shooting Star -->
+    <div class="pattern-card reveal">
+      <div class="pattern-visual">
+        <div class="p-candle bear-c">
+          <div class="p-wick" style="height:40px"></div>
+          <div class="p-body" style="height:15px"></div>
+          <div class="p-wick" style="height:5px"></div>
+        </div>
+      </div>
+      <div class="pattern-name">Shooting Star</div>
+      <div class="pattern-signal signal-bear">Bearish Reversal</div>
+    </div>
+    <!-- Engulfing Bullish -->
+    <div class="pattern-card reveal">
+      <div class="pattern-visual" style="gap:3px;">
+        <div class="p-candle bear-c">
+          <div class="p-wick" style="height:8px"></div>
+          <div class="p-body" style="height:30px;width:10px"></div>
+          <div class="p-wick" style="height:8px"></div>
+        </div>
+        <div class="p-candle bull-c">
+          <div class="p-wick" style="height:8px"></div>
+          <div class="p-body" style="height:48px;width:16px"></div>
+          <div class="p-wick" style="height:8px"></div>
+        </div>
+      </div>
+      <div class="pattern-name">Bullish Engulfing</div>
+      <div class="pattern-signal signal-bull">Strong Bullish</div>
+    </div>
+    <!-- Morning Star -->
+    <div class="pattern-card reveal">
+      <div class="pattern-visual" style="gap:3px;align-items:flex-end;">
+        <div class="p-candle bear-c">
+          <div class="p-wick" style="height:6px"></div>
+          <div class="p-body" style="height:36px;width:12px"></div>
+          <div class="p-wick" style="height:6px"></div>
+        </div>
+        <div class="p-candle doji-c">
+          <div class="p-wick" style="height:10px"></div>
+          <div class="p-body" style="height:8px;width:10px;background:#aaa"></div>
+          <div class="p-wick" style="height:10px"></div>
+        </div>
+        <div class="p-candle bull-c">
+          <div class="p-wick" style="height:6px"></div>
+          <div class="p-body" style="height:36px;width:12px"></div>
+          <div class="p-wick" style="height:6px"></div>
+        </div>
+      </div>
+      <div class="pattern-name">Morning Star</div>
+      <div class="pattern-signal signal-bull">Strong Bullish</div>
+    </div>
+    <!-- Evening Star -->
+    <div class="pattern-card reveal">
+      <div class="pattern-visual" style="gap:3px;align-items:flex-end;">
+        <div class="p-candle bull-c">
+          <div class="p-wick" style="height:6px"></div>
+          <div class="p-body" style="height:36px;width:12px"></div>
+          <div class="p-wick" style="height:6px"></div>
+        </div>
+        <div class="p-candle doji-c">
+          <div class="p-wick" style="height:10px"></div>
+          <div class="p-body" style="height:8px;width:10px;background:#aaa"></div>
+          <div class="p-wick" style="height:10px"></div>
+        </div>
+        <div class="p-candle bear-c">
+          <div class="p-wick" style="height:6px"></div>
+          <div class="p-body" style="height:36px;width:12px"></div>
+          <div class="p-wick" style="height:6px"></div>
+        </div>
+      </div>
+      <div class="pattern-name">Evening Star</div>
+      <div class="pattern-signal signal-bear">Strong Bearish</div>
+    </div>
+    <!-- Marubozu -->
+    <div class="pattern-card reveal">
+      <div class="pattern-visual">
+        <div class="p-candle bull-c">
+          <div class="p-wick" style="height:0px"></div>
+          <div class="p-body" style="height:60px"></div>
+          <div class="p-wick" style="height:0px"></div>
+        </div>
+      </div>
+      <div class="pattern-name">Marubozu</div>
+      <div class="pattern-signal signal-bull">Strong Momentum</div>
+    </div>
+    <!-- Harami -->
+    <div class="pattern-card reveal">
+      <div class="pattern-visual" style="gap:3px;align-items:center;">
+        <div class="p-candle bear-c">
+          <div class="p-wick" style="height:8px"></div>
+          <div class="p-body" style="height:50px;width:16px"></div>
+          <div class="p-wick" style="height:8px"></div>
+        </div>
+        <div class="p-candle bull-c">
+          <div class="p-wick" style="height:4px"></div>
+          <div class="p-body" style="height:20px;width:10px"></div>
+          <div class="p-wick" style="height:4px"></div>
+        </div>
+      </div>
+      <div class="pattern-name">Bullish Harami</div>
+      <div class="pattern-signal signal-bull">Possible Reversal</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RISK MANAGEMENT ===== -->
+<section id="risk">
+  <div class="section-label">Module 5 · Critical</div>
+  <h2 class="section-title reveal">Risk <span class="gold">Management</span></h2>
+  <p class="section-sub reveal">The single most important discipline in trading. No strategy works without controlling how much you lose on each trade.</p>
+
+  <div class="risk-layout">
+    <div class="risk-rules stagger-children">
+      <div class="risk-rule reveal">
+        <div class="risk-rule-num">01</div>
+        <div>
+          <div class="risk-rule-title">The 1–2% Rule</div>
+          <div class="risk-rule-desc">Never risk more than 1–2% of your total trading capital on a single trade. This ensures even a 10-loss streak doesn't devastate your account. At 2% risk, you'd need 50 consecutive losses to go broke — virtually impossible with any edge.</div>
+        </div>
+      </div>
+      <div class="risk-rule reveal">
+        <div class="risk-rule-num">02</div>
+        <div>
+          <div class="risk-rule-title">Always Use Stop Losses</div>
+          <div class="risk-rule-desc">Set your maximum loss before entering a trade, not during. Place stops at technically significant levels (below support, beyond structure), not at arbitrary round numbers. Moving your stop loss to accommodate a losing trade is the #1 account killer.</div>
+        </div>
+      </div>
+      <div class="risk-rule reveal">
+        <div class="risk-rule-num">03</div>
+        <div>
+          <div class="risk-rule-title">Maintain 1:2 Risk/Reward Minimum</div>
+          <div class="risk-rule-desc">Only take trades where your potential profit is at least 2x your potential loss. With a 1:2 R:R ratio, you can be wrong 60% of the time and still be profitable. Higher ratios (1:3, 1:4) give even more margin for error.</div>
+        </div>
+      </div>
+      <div class="risk-rule reveal">
+        <div class="risk-rule-num">04</div>
+        <div>
+          <div class="risk-rule-title">Position Sizing Formula</div>
+          <div class="risk-rule-desc">Shares to buy = (Account × Risk%) ÷ (Entry – Stop Loss). If your account is $10,000, risk 1% ($100), and your stop is $0.50 away, buy 200 shares. Never deviate from this formula based on "conviction" — your feelings are not data.</div>
+        </div>
+      </div>
+      <div class="risk-rule reveal">
+        <div class="risk-rule-num">05</div>
+        <div>
+          <div class="risk-rule-title">Diversification & Correlation</div>
+          <div class="risk-rule-desc">Don't concentrate risk in one sector or highly correlated assets. If you're long 5 tech stocks, you're essentially taking one big tech bet. True diversification means assets that don't move together — spread across sectors, asset classes, and timeframes.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Risk Calculator -->
+    <div class="risk-calculator reveal-right floating">
+      <div class="calc-title">⚖️ Position Size Calculator</div>
+      <div class="calc-field">
+        <label class="calc-label">Account Size ($)</label>
+        <input type="number" class="calc-input" id="accountSize" value="10000" oninput="calcPosition()">
+      </div>
+      <div class="calc-field">
+        <label class="calc-label">Risk Per Trade (%)</label>
+        <input type="number" class="calc-input" id="riskPercent" value="1" step="0.1" min="0.1" max="5" oninput="calcPosition()">
+      </div>
+      <div class="calc-field">
+        <label class="calc-label">Entry Price ($)</label>
+        <input type="number" class="calc-input" id="entryPrice" value="50" step="0.01" oninput="calcPosition()">
+      </div>
+      <div class="calc-field">
+        <label class="calc-label">Stop Loss Price ($)</label>
+        <input type="number" class="calc-input" id="stopPrice" value="47.50" step="0.01" oninput="calcPosition()">
+      </div>
+      <div class="calc-field">
+        <label class="calc-label">Target Price ($)</label>
+        <input type="number" class="calc-input" id="targetPrice" value="57" step="0.01" oninput="calcPosition()">
+      </div>
+      <div class="calc-result" id="calcResult">
+        <div class="calc-result-label">Shares to Buy</div>
+        <div class="calc-result-value" id="sharesResult">40</div>
+        <div class="calc-result-sub" id="calcSub">Risk: $100 · Reward: $280 · R:R = 1:2.8</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;">
+        <div style="background:rgba(255,77,109,0.08);border:1px solid rgba(255,77,109,0.2);border-radius:6px;padding:12px;">
+          <div style="font-size:0.65rem;color:var(--accent-red);font-family:'DM Mono',monospace;margin-bottom:4px;">MAX LOSS</div>
+          <div style="font-family:'DM Mono',monospace;color:var(--accent-red);font-size:0.9rem;" id="maxLoss">-$100.00</div>
+        </div>
+        <div style="background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);border-radius:6px;padding:12px;">
+          <div style="font-size:0.65rem;color:var(--accent-green);font-family:'DM Mono',monospace;margin-bottom:4px;">MAX GAIN</div>
+          <div style="font-family:'DM Mono',monospace;color:var(--accent-green);font-size:0.9rem;" id="maxGain">+$280.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STRATEGIES ===== -->
+<section id="strategies">
+  <div class="section-label">Module 6</div>
+  <h2 class="section-title reveal">Trading <span class="gold">Strategies</span></h2>
+  <p class="section-sub reveal">Different strategies suit different personalities, timeframes, and market conditions. Find your edge.</p>
+
+  <div class="strategies-tabs">
+    <button class="strategy-tab active" onclick="switchTab(this,'tab-day')">Day Trading</button>
+    <button class="strategy-tab" onclick="switchTab(this,'tab-swing')">Swing Trading</button>
+    <button class="strategy-tab" onclick="switchTab(this,'tab-scalp')">Scalping</button>
+    <button class="strategy-tab" onclick="switchTab(this,'tab-trend')">Trend Following</button>
+    <button class="strategy-tab" onclick="switchTab(this,'tab-mean')">Mean Reversion</button>
+  </div>
+
+  <div class="strategy-panels">
+    <div class="strategy-panel active" id="tab-day">
+      <div class="strategy-info">
+        <h3>Day Trading</h3>
+        <p>Day traders open and close all positions within the same trading day — no overnight holds. This eliminates gap risk but requires intense focus, quick decision-making, and discipline to cut losses fast.</p>
+        <div class="strategy-metrics">
+          <div class="s-metric"><div class="s-metric-key">Timeframe</div><div class="s-metric-val" style="color:var(--accent-blue);">1m – 1hr</div></div>
+          <div class="s-metric"><div class="s-metric-key">Hold Time</div><div class="s-metric-val">Minutes – Hours</div></div>
+          <div class="s-metric"><div class="s-metric-key">Difficulty</div><div class="s-metric-val" style="color:var(--accent-red);">High</div></div>
+          <div class="s-metric"><div class="s-metric-key">Capital Req.</div><div class="s-metric-val">$25K+ (PDT)</div></div>
+        </div>
+        <ul class="strategy-steps">
+          <li><span class="step-num">1</span>Identify pre-market movers using scanners (volume, gap %)</li>
+          <li><span class="step-num">2</span>Mark key levels: overnight high/low, VWAP, prior day close</li>
+          <li><span class="step-num">3</span>Wait for the first 15–30 min price discovery to settle</li>
+          <li><span class="step-num">4</span>Enter on confirmed breakout or bounce from key level with volume</li>
+          <li><span class="step-num">5</span>Scale out at R targets; stop is below the entry candle low</li>
+          <li><span class="step-num">6</span>Close all positions 30 min before market close</li>
+        </ul>
+      </div>
+      <div class="strategy-chart-area">
+        <div class="chart-header">
+          <span class="chart-title">TSLA / Day Trading Setup</span>
+          <span class="chart-badge up">+3.2% P&L</span>
+        </div>
+        <svg viewBox="0 0 340 220" style="width:100%;flex:1;">
+          <defs>
+            <linearGradient id="dtGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(0,229,160,0.2)"/>
+              <stop offset="100%" stop-color="rgba(0,229,160,0)"/>
+            </linearGradient>
+          </defs>
+          <!-- Grid -->
+          <line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="110" x2="340" y2="110" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="165" x2="340" y2="165" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <!-- VWAP line -->
+          <path d="M0,130 C60,128 120,125 180,120 C240,115 300,112 340,110" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="1.5" stroke-dasharray="5,3"/>
+          <text x="5" y="125" fill="rgba(201,168,76,0.6)" font-size="8" font-family="monospace">VWAP</text>
+          <!-- Price action -->
+          <path d="M0,170 C20,165 30,160 50,145 C70,130 75,115 100,100 C125,85 130,90 150,75 C170,60 175,65 200,55 C220,45 240,60 260,50 C280,40 310,45 340,35" fill="none" stroke="var(--accent-green)" stroke-width="2">
+            <animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="2.5s" fill="freeze"/>
+          </path>
+          <!-- Entry marker -->
+          <circle cx="100" cy="100" r="5" fill="var(--accent-blue)" opacity="0.9"/>
+          <text x="108" y="97" fill="var(--accent-blue)" font-size="8" font-family="monospace">ENTRY</text>
+          <!-- Stop -->
+          <line x1="80" y1="120" x2="120" y2="120" stroke="var(--accent-red)" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="125" y="123" fill="var(--accent-red)" font-size="7" font-family="monospace">STOP</text>
+          <!-- Target -->
+          <line x1="80" y1="60" x2="200" y2="60" stroke="var(--accent-green)" stroke-width="1" stroke-dasharray="3,2"/>
+          <text x="205" y="63" fill="var(--accent-green)" font-size="7" font-family="monospace">TARGET</text>
+          <!-- Labels -->
+          <text x="4" y="50" fill="rgba(255,255,255,0.15)" font-size="7" font-family="monospace">$250</text>
+          <text x="4" y="105" fill="rgba(255,255,255,0.15)" font-size="7" font-family="monospace">$245</text>
+          <text x="4" y="160" fill="rgba(255,255,255,0.15)" font-size="7" font-family="monospace">$240</text>
+        </svg>
+        <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text-dim);font-family:'DM Mono',monospace;margin-top:8px;">
+          <span>9:30 AM</span><span>10:00</span><span>11:00</span><span>12:00</span><span>1:00 PM</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-panel" id="tab-swing">
+      <div class="strategy-info">
+        <h3>Swing Trading</h3>
+        <p>Swing traders hold positions for several days to weeks, capturing the "swings" within larger trends. Lower stress than day trading, compatible with a full-time job, and allows time to do proper analysis.</p>
+        <div class="strategy-metrics">
+          <div class="s-metric"><div class="s-metric-key">Timeframe</div><div class="s-metric-val" style="color:var(--accent-blue);">4hr – Daily</div></div>
+          <div class="s-metric"><div class="s-metric-key">Hold Time</div><div class="s-metric-val">Days – Weeks</div></div>
+          <div class="s-metric"><div class="s-metric-key">Difficulty</div><div class="s-metric-val" style="color:var(--accent-blue);">Moderate</div></div>
+          <div class="s-metric"><div class="s-metric-key">Capital Req.</div><div class="s-metric-val">$5K+</div></div>
+        </div>
+        <ul class="strategy-steps">
+          <li><span class="step-num">1</span>Identify trending stocks on daily/weekly charts</li>
+          <li><span class="step-num">2</span>Wait for pullback to key support or moving average</li>
+          <li><span class="step-num">3</span>Look for reversal candle pattern as confirmation</li>
+          <li><span class="step-num">4</span>Enter at close of confirmation candle</li>
+          <li><span class="step-num">5</span>Target next resistance level; stop below recent swing low</li>
+          <li><span class="step-num">6</span>Trail stop as trade moves in your favor</li>
+        </ul>
+      </div>
+      <div class="strategy-chart-area">
+        <div class="chart-header">
+          <span class="chart-title">AAPL / Swing Setup – Weekly</span>
+          <span class="chart-badge up">+8.5% Move</span>
+        </div>
+        <svg viewBox="0 0 340 220" style="width:100%;flex:1;">
+          <line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="110" x2="340" y2="110" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="165" x2="340" y2="165" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <!-- Support line -->
+          <line x1="0" y1="140" x2="340" y2="140" stroke="rgba(0,229,160,0.3)" stroke-width="1.5" stroke-dasharray="6,3"/>
+          <text x="5" y="135" fill="rgba(0,229,160,0.5)" font-size="8" font-family="monospace">SUPPORT</text>
+          <!-- Price zigzag (swings) -->
+          <polyline points="0,170 60,90 120,150 180,70 240,130 300,50 340,55" fill="none" stroke="var(--gold)" stroke-width="2">
+            <animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="2s" fill="freeze"/>
+          </polyline>
+          <!-- Swing lows markers -->
+          <circle cx="120" cy="150" r="4" fill="var(--accent-green)" opacity="0.8"/>
+          <circle cx="240" cy="130" r="4" fill="var(--accent-green)" opacity="0.8"/>
+          <text x="4" y="50" fill="rgba(255,255,255,0.15)" font-size="7" font-family="monospace">$190</text>
+          <text x="4" y="105" fill="rgba(255,255,255,0.15)" font-size="7" font-family="monospace">$180</text>
+          <text x="4" y="160" fill="rgba(255,255,255,0.15)" font-size="7" font-family="monospace">$170</text>
+        </svg>
+        <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text-dim);font-family:'DM Mono',monospace;margin-top:8px;">
+          <span>Week 1</span><span>Week 2</span><span>Week 3</span><span>Week 4</span><span>Week 5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-panel" id="tab-scalp">
+      <div class="strategy-info">
+        <h3>Scalping</h3>
+        <p>Scalpers take dozens or hundreds of trades per day, holding each for seconds to minutes. The goal is to capture tiny price moves repeatedly. Requires lightning execution, tight spreads, and a very disciplined mindset.</p>
+        <div class="strategy-metrics">
+          <div class="s-metric"><div class="s-metric-key">Timeframe</div><div class="s-metric-val" style="color:var(--accent-blue);">1s – 5m</div></div>
+          <div class="s-metric"><div class="s-metric-key">Hold Time</div><div class="s-metric-val">Seconds – Min</div></div>
+          <div class="s-metric"><div class="s-metric-key">Difficulty</div><div class="s-metric-val" style="color:var(--accent-red);">Extreme</div></div>
+          <div class="s-metric"><div class="s-metric-key">Win Rate</div><div class="s-metric-val" style="color:var(--accent-green);">65–80%</div></div>
+        </div>
+        <ul class="strategy-steps">
+          <li><span class="step-num">1</span>Trade only the most liquid instruments (ES, NQ, BTC)</li>
+          <li><span class="step-num">2</span>Use Level 2 / DOM to read order flow in real time</li>
+          <li><span class="step-num">3</span>Trade with the micro-trend; never counter-trend scalp</li>
+          <li><span class="step-num">4</span>Enter on limit orders to avoid paying spread</li>
+          <li><span class="step-num">5</span>Take profit at 1:1 to 1:1.5 R — small targets, fast exits</li>
+          <li><span class="step-num">6</span>Hard cap of 3 losing trades in a row before stopping</li>
+        </ul>
+      </div>
+      <div class="strategy-chart-area">
+        <div class="chart-header">
+          <span class="chart-title">ES Futures / 1-Minute Scalps</span>
+          <span class="chart-badge up">+12 pts</span>
+        </div>
+        <svg viewBox="0 0 340 220" style="width:100%;flex:1;">
+          <line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="110" x2="340" y2="110" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="165" x2="340" y2="165" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <!-- Rapid price movement -->
+          <polyline points="0,120 15,115 25,125 35,108 50,112 65,100 75,108 90,95 100,102 115,90 130,97 145,82 160,88 175,76 190,84 205,70 220,77 235,65 250,72 265,60 280,55 295,62 310,50 325,48 340,40" fill="none" stroke="var(--accent-green)" stroke-width="1.5">
+            <animate attributeName="stroke-dasharray" from="0,2000" to="2000,0" dur="2s" fill="freeze"/>
+          </polyline>
+          <!-- Scalp entry/exit markers -->
+          <circle cx="35" cy="108" r="3" fill="var(--accent-blue)"/>
+          <circle cx="65" cy="100" r="3" fill="var(--accent-red)"/>
+          <circle cx="90" cy="95" r="3" fill="var(--accent-blue)"/>
+          <circle cx="130" cy="97" r="3" fill="var(--accent-red)"/>
+          <circle cx="145" cy="82" r="3" fill="var(--accent-blue)"/>
+          <circle cx="175" cy="76" r="3" fill="var(--accent-red)"/>
+        </svg>
+        <div style="display:flex;justify-content:space-between;font-size:0.68rem;color:var(--text-dim);font-family:'DM Mono',monospace;margin-top:8px;">
+          <span style="color:var(--accent-blue);">● Entry</span><span style="color:var(--accent-red);">● Exit</span><span>9:30</span><span>9:45</span><span>10:00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="strategy-panel" id="tab-trend">
+      <div class="strategy-info">
+        <h3>Trend Following</h3>
+        <p>One of the most time-tested approaches in trading: identify an established trend and ride it until it ends. "The trend is your friend until it bends." Simple in concept, psychologically challenging to execute.</p>
+        <div class="strategy-metrics">
+          <div class="s-metric"><div class="s-metric-key">Timeframe</div><div class="s-metric-val" style="color:var(--accent-blue);">Daily – Weekly</div></div>
+          <div class="s-metric"><div class="s-metric-key">Hold Time</div><div class="s-metric-val">Weeks – Months</div></div>
+          <div class="s-metric"><div class="s-metric-key">Win Rate</div><div class="s-metric-val" style="color:var(--accent-blue);">35–50%</div></div>
+          <div class="s-metric"><div class="s-metric-key">R:R Ratio</div><div class="s-metric-val" style="color:var(--accent-green);">1:4 – 1:10</div></div>
+        </div>
+        <ul class="strategy-steps">
+          <li><span class="step-num">1</span>Confirm trend: higher highs and higher lows (uptrend)</li>
+          <li><span class="step-num">2</span>Price above 200-day MA; 50 MA > 200 MA (Golden Cross)</li>
+          <li><span class="step-num">3</span>Enter on pullback to 20 or 50 MA with volume confirmation</li>
+          <li><span class="step-num">4</span>Initial stop below recent swing low</li>
+          <li><span class="step-num">5</span>Trail stop as price makes new highs (ATR-based trailing)</li>
+          <li><span class="step-num">6</span>Exit when trend structure breaks (lower low formed)</li>
+        </ul>
+      </div>
+      <div class="strategy-chart-area">
+        <div class="chart-header">
+          <span class="chart-title">NVDA / Trend Follow – Daily</span>
+          <span class="chart-badge up">+142% Trend</span>
+        </div>
+        <svg viewBox="0 0 340 220" style="width:100%;flex:1;">
+          <line x1="0" y1="55" x2="340" y2="55" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="110" x2="340" y2="110" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="165" x2="340" y2="165" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <!-- 200 MA -->
+          <path d="M0,165 C80,155 160,140 240,120 C280,110 310,100 340,90" fill="none" stroke="rgba(255,77,109,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- 50 MA -->
+          <path d="M0,150 C60,135 120,115 180,90 C240,65 300,50 340,40" fill="none" stroke="rgba(77,159,255,0.5)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- Price -->
+          <path d="M0,160 C40,145 60,155 90,125 C120,95 130,110 160,75 C190,40 200,55 230,30 C260,10 300,20 340,15" fill="none" stroke="var(--accent-green)" stroke-width="2">
+            <animate attributeName="stroke-dasharray" from="0,1000" to="1000,0" dur="2.5s" fill="freeze"/>
+          </path>
+          <text x="5" y="95" fill="rgba(77,159,255,0.5)" font-size="7" font-family="monospace">50 MA</text>
+          <text x="5" y="165" fill="rgba(255,77,109,0.5)" font-size="7" font-family="monospace">200 MA</text>
+        </svg>
+      </div>
+    </div>
+
+    <div class="strategy-panel" id="tab-mean">
+      <div class="strategy-info">
+        <h3>Mean Reversion</h3>
+        <p>Mean reversion strategies bet that prices will return to their average after extreme moves. Works best in ranging, low-volatility markets. Requires careful entry timing and strict risk management.</p>
+        <div class="strategy-metrics">
+          <div class="s-metric"><div class="s-metric-key">Best Condition</div><div class="s-metric-val">Ranging Market</div></div>
+          <div class="s-metric"><div class="s-metric-key">Entry Signal</div><div class="s-metric-val">RSI &lt;30 or &gt;70</div></div>
+          <div class="s-metric"><div class="s-metric-key">Win Rate</div><div class="s-metric-val" style="color:var(--accent-green);">55–70%</div></div>
+          <div class="s-metric"><div class="s-metric-key">Risk Per Trade</div><div class="s-metric-val" style="color:var(--accent-red);">0.5–1%</div></div>
+        </div>
+        <ul class="strategy-steps">
+          <li><span class="step-num">1</span>Identify range-bound market: ADX below 20</li>
+          <li><span class="step-num">2</span>Wait for price to touch upper or lower Bollinger Band</li>
+          <li><span class="step-num">3</span>Confirm with RSI divergence (oversold/overbought)</li>
+          <li><span class="step-num">4</span>Enter counter-trend position at the extreme</li>
+          <li><span class="step-num">5</span>Target the middle band (20 MA) as take profit</li>
+          <li><span class="step-num">6</span>Tight stop beyond the band extreme</li>
+        </ul>
+      </div>
+      <div class="strategy-chart-area">
+        <div class="chart-header">
+          <span class="chart-title">SPY / Bollinger Band Reversion</span>
+          <span class="chart-badge up">+2.1% Avg</span>
+        </div>
+        <svg viewBox="0 0 340 220" style="width:100%;flex:1;">
+          <!-- Upper Band -->
+          <path d="M0,40 C80,35 160,38 240,40 C300,42 320,38 340,36" fill="none" stroke="rgba(77,159,255,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- Lower Band -->
+          <path d="M0,170 C80,172 160,168 240,170 C300,172 320,168 340,170" fill="none" stroke="rgba(77,159,255,0.4)" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <!-- Middle MA -->
+          <path d="M0,105 C80,104 160,103 240,105 C300,107 320,104 340,103" fill="none" stroke="rgba(201,168,76,0.5)" stroke-width="1.5" stroke-dasharray="6,3"/>
+          <!-- Price bouncing between bands -->
+          <polyline points="0,120 40,60 80,145 120,50 160,160 200,55 240,155 280,50 340,110" fill="none" stroke="var(--text-primary)" stroke-width="1.8" opacity="0.7">
+            <animate attributeName="stroke-dasharray" from="0,1500" to="1500,0" dur="2s" fill="freeze"/>
+          </polyline>
+          <!-- Band touch circles -->
+          <circle cx="40" cy="60" r="5" fill="var(--accent-red)" opacity="0.8"/>
+          <circle cx="80" cy="145" r="5" fill="var(--accent-green)" opacity="0.8"/>
+          <circle cx="120" cy="50" r="5" fill="var(--accent-red)" opacity="0.8"/>
+          <circle cx="160" cy="160" r="5" fill="var(--accent-green)" opacity="0.8"/>
+          <text x="5" y="38" fill="rgba(77,159,255,0.5)" font-size="7" font-family="monospace">UPPER BAND</text>
+          <text x="5" y="185" fill="rgba(77,159,255,0.5)" font-size="7" font-family="monospace">LOWER BAND</text>
+          <text x="5" y="100" fill="rgba(201,168,76,0.5)" font-size="7" font-family="monospace">MEAN (20 MA)</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MARKETS ===== -->
+<section id="markets">
+  <div class="section-label">Module 8</div>
+  <h2 class="section-title reveal">Types of <span class="gold">Markets</span></h2>
+  <p class="section-sub reveal">Each market has unique characteristics, trading hours, participants, and dynamics. Understanding these differences is essential for choosing where to trade.</p>
+
+  <div class="markets-grid stagger-children">
+    <div class="market-card reveal">
+      <div class="market-card-top">
+        <div class="market-bg" style="background:radial-gradient(circle at 30% 30%, #4d9fff, transparent)"></div>
+        <div class="market-card-icon">📈</div>
+        <div class="market-card-title">Stock Market</div>
+        <div class="market-card-sub">Equities & ETFs — ownership in companies</div>
+      </div>
+      <div class="market-card-body">
+        <div class="market-facts">
+          <div class="market-fact"><span class="market-fact-key">Hours (US)</span><span class="market-fact-val">9:30–4:00 PM ET</span></div>
+          <div class="market-fact"><span class="market-fact-key">Market Cap</span><span class="market-fact-val">~$100 Trillion</span></div>
+          <div class="market-fact"><span class="market-fact-key">Leverage</span><span class="market-fact-val">2:1 – 4:1</span></div>
+          <div class="market-fact"><span class="market-fact-key">Best For</span><span class="market-fact-val">Long-term, Swing</span></div>
+          <div class="market-fact"><span class="market-fact-key">Key Drivers</span><span class="market-fact-val">Earnings, Fed, GDP</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="market-card reveal">
+      <div class="market-card-top">
+        <div class="market-bg" style="background:radial-gradient(circle at 30% 30%, #00e5a0, transparent)"></div>
+        <div class="market-card-icon">💱</div>
+        <div class="market-card-title">Forex Market</div>
+        <div class="market-card-sub">Currency pairs — the world's largest market</div>
+      </div>
+      <div class="market-card-body">
+        <div class="market-facts">
+          <div class="market-fact"><span class="market-fact-key">Hours</span><span class="market-fact-val">24/5 (Mon–Fri)</span></div>
+          <div class="market-fact"><span class="market-fact-key">Daily Volume</span><span class="market-fact-val">$7.5 Trillion</span></div>
+          <div class="market-fact"><span class="market-fact-key">Leverage</span><span class="market-fact-val">Up to 500:1</span></div>
+          <div class="market-fact"><span class="market-fact-key">Best For</span><span class="market-fact-key">Day & Scalp</span></div>
+          <div class="market-fact"><span class="market-fact-key">Key Drivers</span><span class="market-fact-val">Interest Rates, CPI</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="market-card reveal">
+      <div class="market-card-top">
+        <div class="market-bg" style="background:radial-gradient(circle at 30% 30%, #f7931a, transparent)"></div>
+        <div class="market-card-icon">₿</div>
+        <div class="market-card-title">Crypto Market</div>
+        <div class="market-card-sub">Digital assets — high volatility, 24/7 trading</div>
+      </div>
+      <div class="market-card-body">
+        <div class="market-facts">
+          <div class="market-fact"><span class="market-fact-key">Hours</span><span class="market-fact-val">24/7/365</span></div>
+          <div class="market-fact"><span class="market-fact-key">Market Cap</span><span class="market-fact-val">~$2.5 Trillion</span></div>
+          <div class="market-fact"><span class="market-fact-key">Leverage</span><span class="market-fact-val">Up to 125:1</span></div>
+          <div class="market-fact"><span class="market-fact-key">Volatility</span><span class="market-fact-val">Extreme</span></div>
+          <div class="market-fact"><span class="market-fact-key">Key Drivers</span><span class="market-fact-val">Sentiment, Halving</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="market-card reveal">
+      <div class="market-card-top">
+        <div class="market-bg" style="background:radial-gradient(circle at 30% 30%, #c9a84c, transparent)"></div>
+        <div class="market-card-icon">🛢️</div>
+        <div class="market-card-title">Commodities</div>
+        <div class="market-card-sub">Physical goods — gold, oil, wheat, copper</div>
+      </div>
+      <div class="market-card-body">
+        <div class="market-facts">
+          <div class="market-fact"><span class="market-fact-key">Instruments</span><span class="market-fact-val">Futures, ETFs, CFDs</span></div>
+          <div class="market-fact"><span class="market-fact-key">Gold (Safe Haven)</span><span class="market-fact-val">$2,345/oz</span></div>
+          <div class="market-fact"><span class="market-fact-key">Crude Oil</span><span class="market-fact-val">$82/barrel</span></div>
+          <div class="market-fact"><span class="market-fact-key">Key Drivers</span><span class="market-fact-val">Supply, Geopolitics</span></div>
+          <div class="market-fact"><span class="market-fact-key">Best For</span><span class="market-fact-val">Hedging, Macro</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="market-card reveal">
+      <div class="market-card-top">
+        <div class="market-bg" style="background:radial-gradient(circle at 30% 30%, #9d6fff, transparent)"></div>
+        <div class="market-card-icon">📜</div>
+        <div class="market-card-title">Options Market</div>
+        <div class="market-card-sub">Derivatives — rights to buy/sell at set prices</div>
+      </div>
+      <div class="market-card-body">
+        <div class="market-facts">
+          <div class="market-fact"><span class="market-fact-key">Types</span><span class="market-fact-val">Calls & Puts</span></div>
+          <div class="market-fact"><span class="market-fact-key">Leverage</span><span class="market-fact-val">Very High</span></div>
+          <div class="market-fact"><span class="market-fact-key">Key Concept</span><span class="market-fact-val">IV & The Greeks</span></div>
+          <div class="market-fact"><span class="market-fact-key">Expiry</span><span class="market-fact-val">Weekly to LEAPS</span></div>
+          <div class="market-fact"><span class="market-fact-key">Best For</span><span class="market-fact-val">Hedging, Income</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="market-card reveal">
+      <div class="market-card-top">
+        <div class="market-bg" style="background:radial-gradient(circle at 30% 30%, #ff4d6d, transparent)"></div>
+        <div class="market-card-icon">🔮</div>
+        <div class="market-card-title">Futures Market</div>
+        <div class="market-card-sub">Contracts to buy/sell at a future date & price</div>
+      </div>
+      <div class="market-card-body">
+        <div class="market-facts">
+          <div class="market-fact"><span class="market-fact-key">Popular</span><span class="market-fact-val">ES, NQ, CL, GC</span></div>
+          <div class="market-fact"><span class="market-fact-key">Hours</span><span class="market-fact-val">Nearly 24/5</span></div>
+          <div class="market-fact"><span class="market-fact-key">Margin</span><span class="market-fact-val">$500–$5,000/contract</span></div>
+          <div class="market-fact"><span class="market-fact-key">Best For</span><span class="market-fact-key">Day Trading, Hedge</span></div>
+          <div class="market-fact"><span class="market-fact-key">Tax</span><span class="market-fact-val">60/40 Rule (US)</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ADVANCED ===== -->
+<section id="advanced">
+  <div class="section-label">Modules 10–11 · Advanced</div>
+  <h2 class="section-title reveal">Advanced <span class="gold">Concepts</span></h2>
+  <p class="section-sub reveal">Once foundations are mastered, these sophisticated concepts separate professional traders from retail participants.</p>
+
+  <div class="advanced-grid stagger-children">
+    <div class="advanced-card reveal">
+      <div class="advanced-header">
+        <div class="advanced-icon" style="background:linear-gradient(135deg,rgba(77,159,255,0.1),rgba(157,111,255,0.2));border:1px solid rgba(77,159,255,0.2);">🔢</div>
+        <div>
+          <div class="advanced-title">Algorithmic Trading</div>
+          <div class="advanced-subtitle">Automating strategies with code</div>
+        </div>
+      </div>
+      <div class="advanced-body">Algorithmic trading uses programmed rules to execute trades automatically — removing emotion, enabling backtesting, and allowing execution at speeds impossible for humans. From simple moving average crossovers to complex ML models, algo trading is the future of markets.</div>
+      <div class="advanced-highlights">
+        <div class="advanced-highlight">Python (pandas, backtrader, zipline)</div>
+        <div class="advanced-highlight">Backtesting & Walk-forward Analysis</div>
+        <div class="advanced-highlight">API Integration (Alpaca, IBKR, Binance)</div>
+        <div class="advanced-highlight">Statistical Arbitrage & Pairs Trading</div>
+        <div class="advanced-highlight">High-Frequency Trading Basics</div>
+      </div>
+    </div>
+
+    <div class="advanced-card reveal">
+      <div class="advanced-header">
+        <div class="advanced-icon" style="background:linear-gradient(135deg,rgba(157,111,255,0.1),rgba(255,77,109,0.1));border:1px solid rgba(157,111,255,0.2);">📜</div>
+        <div>
+          <div class="advanced-title">Options Greeks & Volatility</div>
+          <div class="advanced-subtitle">The language of derivatives</div>
+        </div>
+      </div>
+      <div class="advanced-body">The Greeks quantify how option prices respond to market changes. Mastering them unlocks sophisticated hedging, income strategies, and volatility plays that are unavailable to simple stock traders.</div>
+      <div class="advanced-highlights">
+        <div class="advanced-highlight">Delta: directional exposure per share</div>
+        <div class="advanced-highlight">Gamma: rate of delta change (convexity)</div>
+        <div class="advanced-highlight">Theta: daily time decay (seller's edge)</div>
+        <div class="advanced-highlight">Vega: sensitivity to implied volatility</div>
+        <div class="advanced-highlight">Rho: interest rate sensitivity</div>
+      </div>
+    </div>
+
+    <div class="advanced-card reveal">
+      <div class="advanced-header">
+        <div class="advanced-icon" style="background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(0,229,160,0.1));border:1px solid rgba(201,168,76,0.2);">🌊</div>
+        <div>
+          <div class="advanced-title">Elliott Wave Theory</div>
+          <div class="advanced-subtitle">Fractal patterns in market psychology</div>
+        </div>
+      </div>
+      <div class="advanced-body">Elliott Wave Theory proposes that markets move in predictable 5-wave impulse patterns followed by 3-wave corrective patterns. These patterns are fractal — they appear on every timeframe. Controversial but widely followed among advanced technicians.</div>
+      <div class="advanced-highlights">
+        <div class="advanced-highlight">5-Wave Impulse: 1-2-3-4-5</div>
+        <div class="advanced-highlight">3-Wave Correction: A-B-C</div>
+        <div class="advanced-highlight">Wave Rules & Guidelines</div>
+        <div class="advanced-highlight">Fibonacci Ratios Between Waves</div>
+        <div class="advanced-highlight">Degree Labels (Grand Supercycle→Minuette)</div>
+      </div>
+    </div>
+
+    <div class="advanced-card reveal">
+      <div class="advanced-header">
+        <div class="advanced-icon" style="background:linear-gradient(135deg,rgba(0,229,160,0.1),rgba(77,159,255,0.1));border:1px solid rgba(0,229,160,0.2);">📦</div>
+        <div>
+          <div class="advanced-title">Market Microstructure</div>
+          <div class="advanced-subtitle">How institutional money moves</div>
+        </div>
+      </div>
+      <div class="advanced-body">Understanding the mechanics beneath price action — order flow, dark pools, iceberg orders, and institutional footprints. This is how professional prop traders gain edge: not from indicators, but from reading supply and demand at the microstructure level.</div>
+      <div class="advanced-highlights">
+        <div class="advanced-highlight">Order Book & Level 2 Analysis</div>
+        <div class="advanced-highlight">Dark Pools & Off-Exchange Prints</div>
+        <div class="advanced-highlight">Imbalance & Absorption</div>
+        <div class="advanced-highlight">Footprint Charts & CVD</div>
+        <div class="advanced-highlight">VWAP Deviation & Institutional Levels</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PSYCHOLOGY ===== -->
+<section id="psychology">
+  <div class="section-label">Module 9 · Often Overlooked</div>
+  <h2 class="section-title reveal">Trading <span class="gold">Psychology</span></h2>
+  <p class="section-sub reveal">90% of traders fail — not because of bad strategy, but because of psychology. The market exploits every weakness in human nature.</p>
+  <div class="psych-grid stagger-children">
+    <div class="bias-card reveal">
+      <div class="bias-emoji">😨</div>
+      <div>
+        <div class="bias-title">Fear of Missing Out (FOMO)</div>
+        <div class="bias-desc">Chasing a stock after it has already moved significantly, entering at the worst possible time out of fear of missing the move.</div>
+        <div class="bias-tip">💡 Rule: If you missed the entry, the next setup is coming. There are always more trades.</div>
+      </div>
+    </div>
+    <div class="bias-card reveal">
+      <div class="bias-emoji">🤞</div>
+      <div>
+        <div class="bias-title">Loss Aversion & Hope Trading</div>
+        <div class="bias-desc">Holding losers far too long hoping they'll recover, while cutting winners too early. Humans feel losses 2x more than equivalent gains.</div>
+        <div class="bias-tip">💡 Rule: Let your stop loss do its job. Your opinion of the trade doesn't matter.</div>
+      </div>
+    </div>
+    <div class="bias-card reveal">
+      <div class="bias-emoji">🎰</div>
+      <div>
+        <div class="bias-title">Revenge Trading</div>
+        <div class="bias-desc">After a loss, immediately doubling down to "get even" with the market. This emotional decision-making often leads to catastrophic drawdowns.</div>
+        <div class="bias-tip">💡 Rule: After 2 losses in a day, stop trading. The market will be open tomorrow.</div>
+      </div>
+    </div>
+    <div class="bias-card reveal">
+      <div class="bias-emoji">💡</div>
+      <div>
+        <div class="bias-title">Overconfidence Bias</div>
+        <div class="bias-desc">After a winning streak, traders believe they have a special ability and take outsized risks — then give back all profits on a single reckless trade.</div>
+        <div class="bias-tip">💡 Rule: Process > outcome. Even good trades can lose; even bad setups can win.</div>
+      </div>
+    </div>
+    <div class="bias-card reveal">
+      <div class="bias-emoji">⚓</div>
+      <div>
+        <div class="bias-title">Anchoring Bias</div>
+        <div class="bias-desc">Fixating on a past purchase price ("I'll sell when I break even") rather than making decisions based on current market conditions.</div>
+        <div class="bias-tip">💡 Rule: The market doesn't know your cost basis. Only current price action matters.</div>
+      </div>
+    </div>
+    <div class="bias-card reveal">
+      <div class="bias-emoji">📖</div>
+      <div>
+        <div class="bias-title">Confirmation Bias</div>
+        <div class="bias-desc">Seeking out information that confirms a pre-existing view while ignoring contradictory evidence. Leads to holding losers and ignoring warning signs.</div>
+        <div class="bias-tip">💡 Rule: Actively seek evidence AGAINST your trade thesis before entering.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GLOSSARY ===== -->
+<section id="glossary">
+  <div class="section-label">Reference</div>
+  <h2 class="section-title reveal">Trading <span class="gold">Glossary</span></h2>
+  <p class="section-sub reveal">Master the language of the markets. Every professional term you need to know.</p>
+
+  <div class="glossary-search reveal">
+    <input type="text" id="glossarySearch" placeholder="Search terms..." oninput="filterGlossary()">
+  </div>
+
+  <div class="glossary-grid" id="glossaryGrid">
+    <div class="glossary-card"><div class="glossary-term">Ask Price</div><div class="glossary-def">The lowest price a seller is willing to accept for an asset. When you buy at market, you pay the ask.</div></div>
+    <div class="glossary-card"><div class="glossary-term">ATR (Average True Range)</div><div class="glossary-def">A volatility indicator measuring the average range between high and low prices over N periods.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Bear Market</div><div class="glossary-def">A market that has declined 20% or more from its recent peak, characterized by pessimism and selling pressure.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Bid Price</div><div class="glossary-def">The highest price a buyer is willing to pay. When you sell at market, you receive the bid price.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Bull Market</div><div class="glossary-def">A market rising 20%+ from a recent low, characterized by optimism, investor confidence, and buying pressure.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Candlestick</div><div class="glossary-def">A chart representation showing open, high, low, and close prices for a given time period as a single unit.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Dead Cat Bounce</div><div class="glossary-def">A temporary, short-lived recovery in a declining market before prices continue falling. False signal of reversal.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Delta (Options)</div><div class="glossary-def">Measures how much an option's price changes for every $1 move in the underlying asset. Range: 0 to 1.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Drawdown</div><div class="glossary-def">The percentage decline from a portfolio's peak value to its lowest point before recovering to new highs.</div></div>
+    <div class="glossary-card"><div class="glossary-term">EMA (Exponential Moving Average)</div><div class="glossary-def">A moving average that gives more weight to recent prices, making it more responsive to new information than SMA.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Fibonacci Retracement</div><div class="glossary-def">Horizontal levels based on Fibonacci ratios (23.6%, 38.2%, 61.8%) used to identify potential support/resistance.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Float</div><div class="glossary-def">The number of shares available for public trading. Low float stocks are prone to extreme price moves.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Gap Up / Gap Down</div><div class="glossary-def">When a stock opens significantly higher or lower than the previous close, often on major news or earnings.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Golden Cross</div><div class="glossary-def">A bullish signal when the 50-day MA crosses above the 200-day MA. Considered a major buy signal.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Implied Volatility (IV)</div><div class="glossary-def">The market's forecast of likely price movement in an asset, derived from option prices. High IV = expensive options.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Liquidity</div><div class="glossary-def">How easily an asset can be bought or sold without significantly affecting its price. High liquidity = tight spreads.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Margin</div><div class="glossary-def">Borrowed capital from a broker to increase position size. Amplifies both gains and losses proportionally.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Market Capitalization</div><div class="glossary-def">Total market value of all outstanding shares. Share price × total shares outstanding = market cap.</div></div>
+    <div class="glossary-card"><div class="glossary-term">MACD</div><div class="glossary-def">Moving Average Convergence Divergence — trend-following momentum indicator showing relationship between two EMAs.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Order Book</div><div class="glossary-def">A real-time electronic list of all buy and sell orders for a security, organized by price level.</div></div>
+    <div class="glossary-card"><div class="glossary-term">P/E Ratio</div><div class="glossary-def">Price-to-Earnings ratio. Stock price divided by earnings per share. Measure of how expensive a stock is.</div></div>
+    <div class="glossary-card"><div class="glossary-term">RSI</div><div class="glossary-def">Relative Strength Index (0–100). Readings above 70 indicate overbought; below 30 indicate oversold conditions.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Scalping</div><div class="glossary-def">A trading strategy capturing small price movements many times per day, with very short hold times.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Short Selling</div><div class="glossary-def">Borrowing and selling shares hoping to repurchase them cheaper later. Profits when price falls.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Slippage</div><div class="glossary-def">The difference between the expected execution price and the actual fill price, usually in fast-moving markets.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Support & Resistance</div><div class="glossary-def">Price levels where buying (support) or selling (resistance) pressure is historically strong enough to reverse price.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Theta Decay</div><div class="glossary-def">The rate at which an option loses value over time as it approaches expiration. Benefits option sellers.</div></div>
+    <div class="glossary-card"><div class="glossary-term">VWAP</div><div class="glossary-def">Volume Weighted Average Price — the ratio of value traded to total volume, used as intraday benchmark.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Volatility</div><div class="glossary-def">The degree of price variation over time. High volatility means large swings; low volatility means stable prices.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Volume</div><div class="glossary-def">Total number of shares/contracts traded in a period. High volume confirms price moves; low volume warns of fakeouts.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Wash Sale Rule</div><div class="glossary-def">IRS rule: you cannot claim a loss if you rebuy the same security within 30 days before or after the sale.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Whipsaw</div><div class="glossary-def">A condition where a security's price moves sharply in one direction then quickly reverses — trapping traders.</div></div>
+    <div class="glossary-card"><div class="glossary-term">Yield Curve</div><div class="glossary-def">A line plotting interest rates of bonds with equal credit quality but differing maturity dates. Inverted = recession signal.</div></div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section id="cta">
+  <h2 class="cta-title reveal">Begin Your <span class="gold">Trading Journey</span><br>Today — For Free</h2>
+  <p class="cta-sub reveal">All content on TradeVerse Academy is freely available. No paywalls, no subscriptions. Just pure, structured trading education.</p>
+  <div class="cta-features reveal">
+    <div class="cta-feature">12 Complete Modules</div>
+    <div class="cta-feature">200+ Concepts</div>
+    <div class="cta-feature">Interactive Calculators</div>
+    <div class="cta-feature">Visual Explanations</div>
+    <div class="cta-feature">Always Free</div>
+  </div>
+  <div class="hero-btns reveal">
+    <a href="#curriculum" class="btn-primary">Start with Module 1</a>
+    <a href="#glossary" class="btn-secondary">Browse Glossary</a>
+  </div>
+  <p style="margin-top:40px;font-size:0.75rem;color:var(--text-dim);max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6;">
+    ⚠️ Trading involves substantial risk of loss. This educational content is for learning purposes only and does not constitute financial advice. Past performance is not indicative of future results.
+  </p>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">TradeVerse Academy</div>
+      <div class="footer-desc">A comprehensive, beautifully crafted trading education platform covering every essential concept from market fundamentals to advanced algorithmic strategies.</div>
+    </div>
+    <div>
+      <div class="footer-heading">Curriculum</div>
+      <ul class="footer-links">
+        <li><a href="#curriculum">All Modules</a></li>
+        <li><a href="#fundamentals">Fundamentals</a></li>
+        <li><a href="#technical">Technical Analysis</a></li>
+        <li><a href="#patterns">Chart Patterns</a></li>
+        <li><a href="#strategies">Strategies</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Topics</div>
+      <ul class="footer-links">
+        <li><a href="#risk">Risk Management</a></li>
+        <li><a href="#markets">Market Types</a></li>
+        <li><a href="#advanced">Advanced</a></li>
+        <li><a href="#psychology">Psychology</a></li>
+        <li><a href="#glossary">Glossary</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Markets</div>
+      <ul class="footer-links">
+        <li><a href="#markets">Stocks & ETFs</a></li>
+        <li><a href="#markets">Forex</a></li>
+        <li><a href="#markets">Cryptocurrency</a></li>
+        <li><a href="#markets">Options</a></li>
+        <li><a href="#markets">Futures</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 TradeVerse Academy · Educational Content Only</div>
+    <div class="footer-disclaimer">Trading involves substantial risk. Content is educational only and does not constitute financial advice. Always consult a licensed financial professional before trading.</div>
+  </div>
+</footer>
+
+<script>
+// === CUSTOM CURSOR ===
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 6 + 'px';
+  cursor.style.top = my - 6 + 'px';
+});
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a,button,.module-card,.ta-card,.market-card,.pattern-card,.bias-card,.accordion-header,.strategy-tab').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'scale(2)';
+    ring.style.width = '56px'; ring.style.height = '56px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'scale(1)';
+    ring.style.width = '36px'; ring.style.height = '36px';
+  });
+});
+
+// === NAVBAR SCROLL ===
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// === SCROLL REVEAL ===
+const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Animate progress bars inside
+      entry.target.querySelectorAll('.progress-bar[data-width]').forEach(bar => {
+        setTimeout(() => { bar.style.width = bar.dataset.width + '%'; }, 300);
+      });
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// Also observe progress bars directly
+const pbObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.target.dataset.width) {
+      setTimeout(() => { entry.target.style.width = entry.target.dataset.width + '%'; }, 300);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.progress-bar[data-width]').forEach(el => pbObserver.observe(el));
+
+// === NUMBER COUNTER ===
+document.querySelectorAll('.count-num').forEach(el => {
+  const target = parseInt(el.dataset.target);
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      let start = 0;
+      const increment = target / 50;
+      const timer = setInterval(() => {
+        start += increment;
+        el.textContent = Math.min(Math.round(start), target) + (target === 100 ? '%' : '+');
+        if (start >= target) clearInterval(timer);
+      }, 30);
+      obs.disconnect();
+    }
+  }, { threshold: 0.5 });
+  obs.observe(el);
+});
+
+// === ACCORDION ===
+function toggleAccordion(header) {
+  const item = header.parentElement;
+  const wasActive = item.classList.contains('active');
+  document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+  if (!wasActive) item.classList.add('active');
+}
+
+// === STRATEGY TABS ===
+function switchTab(btn, panelId) {
+  document.querySelectorAll('.strategy-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.strategy-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+// === RISK CALCULATOR ===
+function calcPosition() {
+  const account = parseFloat(document.getElementById('accountSize').value) || 0;
+  const riskPct = parseFloat(document.getElementById('riskPercent').value) || 1;
+  const entry = parseFloat(document.getElementById('entryPrice').value) || 0;
+  const stop = parseFloat(document.getElementById('stopPrice').value) || 0;
+  const target = parseFloat(document.getElementById('targetPrice').value) || 0;
+
+  const riskAmount = account * (riskPct / 100);
+  const riskPerShare = Math.abs(entry - stop);
+  const rewardPerShare = Math.abs(target - entry);
+  const shares = riskPerShare > 0 ? Math.floor(riskAmount / riskPerShare) : 0;
+  const maxLoss = shares * riskPerShare;
+  const maxGain = shares * rewardPerShare;
+  const rr = riskPerShare > 0 ? (rewardPerShare / riskPerShare).toFixed(1) : 0;
+
+  document.getElementById('sharesResult').textContent = shares.toLocaleString();
+  document.getElementById('calcSub').textContent = `Risk: $${maxLoss.toFixed(2)} · Reward: $${maxGain.toFixed(2)} · R:R = 1:${rr}`;
+  document.getElementById('maxLoss').textContent = `-$${maxLoss.toFixed(2)}`;
+  document.getElementById('maxGain').textContent = `+$${maxGain.toFixed(2)}`;
+}
+calcPosition();
+
+// === GLOSSARY FILTER ===
+function filterGlossary() {
+  const q = document.getElementById('glossarySearch').value.toLowerCase();
+  document.querySelectorAll('.glossary-card').forEach(card => {
+    const term = card.querySelector('.glossary-term').textContent.toLowerCase();
+    const def = card.querySelector('.glossary-def').textContent.toLowerCase();
+    card.style.display = (term.includes(q) || def.includes(q)) ? '' : 'none';
+  });
+}
+
+// === STAGGER CHILDREN REVEAL ===
+document.querySelectorAll('.stagger-children').forEach(parent => {
+  const staggerObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      parent.querySelectorAll('.reveal, .ta-card, .module-card, .market-card, .pattern-card, .bias-card, .risk-rule, .glossary-card').forEach((child, i) => {
+        setTimeout(() => child.classList.add('visible'), i * 80);
+      });
+      staggerObs.disconnect();
+    }
+  }, { threshold: 0.05 });
+  staggerObs.observe(parent);
+});
+
+// Make all stagger items start as reveal
+document.querySelectorAll('.stagger-children > *').forEach(child => {
+  if (!child.classList.contains('reveal') && !child.classList.contains('reveal-left') && !child.classList.contains('reveal-right')) {
+    child.classList.add('reveal');
+  }
+});
+</script>
+</body>
+</html>
